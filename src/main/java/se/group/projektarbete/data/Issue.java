@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public final class Issue {
-    //Test
+
     @Id
     @GeneratedValue
     private Long id;
