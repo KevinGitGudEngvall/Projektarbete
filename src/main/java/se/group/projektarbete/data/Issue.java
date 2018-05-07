@@ -6,7 +6,7 @@ import javax.persistence.*;
 public final class Issue {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -14,6 +14,7 @@ public final class Issue {
 
     @OneToOne
     private WorkItem workItem;
+
 
     protected Issue(){}
 
