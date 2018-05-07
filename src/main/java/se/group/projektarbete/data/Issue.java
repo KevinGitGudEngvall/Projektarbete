@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public final class Issue {
-
+///Skriver nåt
     @Id
     @GeneratedValue
     private Long id;
@@ -14,6 +14,8 @@ public final class Issue {
 
     @OneToOne
     private WorkItem workItem;
+
+    private Long kuk;
 
     protected Issue(){}
 
