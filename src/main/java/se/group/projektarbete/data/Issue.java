@@ -15,7 +15,7 @@ public final class Issue {
     @OneToOne
     private WorkItem workItem;
 
-    private Long kuk;
+    private Long Ian;
 
     protected Issue(){}
 
