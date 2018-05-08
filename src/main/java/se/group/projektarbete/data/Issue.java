@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public final class Issue {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,7 +13,6 @@ public final class Issue {
 
     @OneToOne
     private WorkItem workItem;
-
 
     protected Issue(){}
 

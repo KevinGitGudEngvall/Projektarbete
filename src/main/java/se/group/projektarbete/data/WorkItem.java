@@ -62,4 +62,8 @@ public final class WorkItem {
         return issue;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
