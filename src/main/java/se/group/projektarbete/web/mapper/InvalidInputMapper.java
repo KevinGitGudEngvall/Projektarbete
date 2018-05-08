@@ -1,7 +1,6 @@
 package se.group.projektarbete.web.mapper;
 
 import se.group.projektarbete.service.InvalidInputException;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
