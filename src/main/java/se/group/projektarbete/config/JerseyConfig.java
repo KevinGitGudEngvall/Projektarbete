@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        packages("se.group.projektarbete.resource");
+        packages("se.group.projektarbete.web");
     }
 }

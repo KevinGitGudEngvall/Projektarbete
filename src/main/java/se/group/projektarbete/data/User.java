@@ -21,7 +21,7 @@ public final class User {
     @Column(nullable = false)
     private Boolean active;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<WorkItem> workItems;
 
     @ManyToOne
@@ -67,6 +67,15 @@ public final class User {
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setWorkItems(WorkItem workItem) {
+        workItems.add(workItem);
+        workItem.setUser(this);
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
 

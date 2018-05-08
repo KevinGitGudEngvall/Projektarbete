@@ -42,4 +42,10 @@ public final class Team {
         return users;
     }
 
+    public void setUserList(User user) {
+        users.add(user);
+        user.setTeam(this);
+
+    }
+
 }

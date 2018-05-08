@@ -9,6 +9,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.Optional;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.CREATED;
 
@@ -29,17 +31,19 @@ public final class UserResource {
 
     @POST
     public Response createUser(User user) {
-        userService.createUser(user);
+       User createdUser = userService.createUser(user);
 
         return Response.status(CREATED).header("Location",
-                uriInfo.getAbsolutePathBuilder().path(user.getUserNumber().toString())).build();
+                uriInfo.getAbsolutePathBuilder().path(createdUser.getUserNumber().toString())).build();
     }
 
 
     @GET
     @Path("{userNumber}")
-    public User getUserByUserNumber(@PathParam("userNumber") Long id) {
-        return null;
+    public Response getUserByUserNumber(@PathParam("userNumber") Long id) {
+       Optional<User> result = userService.getUserByUsernumber(id);
+
+        return Response.ok(result).build();
     }
 
 
