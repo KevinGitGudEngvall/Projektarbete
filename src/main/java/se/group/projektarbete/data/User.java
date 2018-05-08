@@ -21,7 +21,7 @@ public final class User {
     @Column(nullable = false)
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
 
     @ManyToOne

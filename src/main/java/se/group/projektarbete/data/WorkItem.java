@@ -31,6 +31,7 @@ public final class WorkItem {
 
     protected WorkItem(){}
 
+
     public WorkItem(String name, String description, Status status, User user) {
         this.name = name;
         this.description = description;
@@ -38,6 +39,9 @@ public final class WorkItem {
         this.user = user;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
     public Long getId() {
         return id;
     }
