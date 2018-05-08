@@ -27,7 +27,8 @@ public final class User {
     @ManyToOne
     private Team team;
 
-    protected User(){}
+    protected User() {
+    }
 
     public User(String firstName, String lastName, String userName, Long userNumber, Boolean active) {
         this.firstName = firstName;
@@ -67,6 +68,32 @@ public final class User {
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public void setFirstName(String firstName) {
+
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void updateUser(User user) {
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.userName = user.getUserName();
+        this.userNumber = user.getUserNumber();
+        this.active = user.getActive();
+    }
+
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setWorkItems(WorkItem workItem) {

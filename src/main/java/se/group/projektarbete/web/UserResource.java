@@ -9,10 +9,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import java.util.Optional;
+import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.*;
 
 @Component
 @Consumes(APPLICATION_JSON)
@@ -31,7 +31,7 @@ public final class UserResource {
 
     @POST
     public Response createUser(User user) {
-       User createdUser = userService.createUser(user);
+        User createdUser = userService.createUser(user);
 
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(createdUser.getUserNumber().toString())).build();
@@ -40,11 +40,41 @@ public final class UserResource {
 
     @GET
     @Path("{userNumber}")
-    public Response getUserByUserNumber(@PathParam("userNumber") Long id) {
-       Optional<User> result = userService.getUserByUsernumber(id);
+    public Response getUserByUserNumber(@PathParam("userNumber") Long userNumber) {
 
-        return Response.ok(result).build();
+        return userService.getUserByUsernumber(userNumber)
+                .map(Response::ok)
+                .orElse(Response.status(NOT_FOUND))
+                .build();
     }
 
+   @PUT
+   @Path("{userNumber}/inactivate")
+   public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
+      if (userService.inactivateUser(userNumber)) {
+          return Response.status(OK).build();
+      }
+      return Response.status(NOT_FOUND).build();
 
+   }
+
+   @GET
+   public List<User> getUserByFirstNameAndOrLastNameAndOrUserName(@QueryParam("search") String searchString,
+                                                                  @QueryParam("search") String searchString2,
+                                                                  @QueryParam("search") String searchString3){
+
+        return userService.getUserByFirstNameAndOrLastNameAndOrUserName(searchString,searchString2,searchString3);
+   }
+
+    @PUT
+    @Path("{userNumber}")
+    public Response updateUserByUserNumber(@PathParam("userNumber") Long userNumber, User user) {
+        if (userService.updateUser(userNumber, user)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
+    }
 }
+
+
+
