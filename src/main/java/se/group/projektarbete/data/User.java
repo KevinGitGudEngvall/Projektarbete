@@ -7,13 +7,13 @@ import java.util.List;
 public final class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
-    private String lasttName;
+    private String lastName;
     @Column(nullable = false)
     private String userName;
     @Column(nullable = false)
@@ -29,9 +29,9 @@ public final class User {
 
     protected User(){}
 
-    public User(String firstName, String lasttName, String userName, Long userNumber, Boolean active) {
+    public User(String firstName, String lastName, String userName, Long userNumber, Boolean active) {
         this.firstName = firstName;
-        this.lasttName = lasttName;
+        this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
         this.active = active;
@@ -45,8 +45,8 @@ public final class User {
         return firstName;
     }
 
-    public String getLasttName() {
-        return lasttName;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getUserName() {

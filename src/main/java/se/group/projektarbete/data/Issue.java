@@ -4,9 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public final class Issue {
-///Skriver nåt
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -14,8 +13,6 @@ public final class Issue {
 
     @OneToOne
     private WorkItem workItem;
-
-    private Long dudee;
 
     protected Issue(){}
 
