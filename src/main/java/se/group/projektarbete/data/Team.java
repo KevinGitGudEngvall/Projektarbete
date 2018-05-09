@@ -18,10 +18,8 @@ public final class Team {
     @Column(nullable = false)
     private Boolean active;
 
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "team", cascade={CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<User> users;
-
 
     protected Team(){}
 

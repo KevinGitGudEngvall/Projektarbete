@@ -67,4 +67,7 @@ public final class WorkItem {
         this.user = user;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

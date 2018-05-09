@@ -45,6 +45,7 @@ public final class UserResource {
                 .build();
     }
 
+    @GET
     @Path("firstname/{firstName}")
     public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
