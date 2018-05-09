@@ -44,11 +44,12 @@ public final class UserResource {
                 .orElse(Response.status(NOT_FOUND))
                 .build();
     }
+
     @Path("firstname/{firstName}")
     public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
                                              @QueryParam("userName") String userName) {
-        return userService.testingFirstAndSecondName(firstName, lastName, userName);
+        return userService.findUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
     }
 
     @PUT

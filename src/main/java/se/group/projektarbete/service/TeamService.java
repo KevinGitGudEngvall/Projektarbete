@@ -1,6 +1,5 @@
 package se.group.projektarbete.service;
 
-import com.sun.tools.javac.comp.Todo;
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
