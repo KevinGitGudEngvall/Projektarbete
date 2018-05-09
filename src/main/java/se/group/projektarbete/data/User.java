@@ -23,7 +23,7 @@ public final class User {
     @Column(nullable = false)
     private Boolean active = true;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
 
     @ManyToOne

@@ -14,6 +14,7 @@ public class JerseyConfig extends ResourceConfig {
         packages("se.group.projektarbete.web");
     }
 
+
     @Bean
     public ObjectMapper objectMapper() {
         // Adds support for Java 8 parameter preservation
