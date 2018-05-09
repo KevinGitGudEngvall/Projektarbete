@@ -55,42 +55,20 @@ public final class UserService {
         return false;
     }
 
-    public List<User> getUserByFirstNameAndOrLastNameAndOrUserName(String searchString,String searchString2, String searchString3) {
-        List<User> users = userRepository.findAll();
-        List<User> searchResult = new ArrayList<>();
-        List<String> searchStringList = new ArrayList<>();
+    public List<User> testingFirstAndSecondName(String firstName, String lastName, String userName) {
+        List<User> users;
 
-        searchStringList.add(searchString);
-        searchStringList.add(searchString2);
-        searchStringList.add(searchString3);
-        for (int j = 0; j<searchStringList.size(); j++)
-            for(int i = 0; i < users.size(); i++){
-
-                if(users.get(i).getFirstName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
-
-                else if (users.get(i).getLastName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
-
-                else if (users.get(i).getUserName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
-
-                else if(users.get(i).getFirstName().equalsIgnoreCase(searchStringList.get(j)) && users.get(i).getLastName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
-
-                else if(users.get(i).getFirstName().equalsIgnoreCase(searchStringList.get(j)) && users.get(i).getUserName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
-
-                else if(users.get(i).getLastName().equalsIgnoreCase(searchStringList.get(j)) && users.get(i).getUserName().equalsIgnoreCase(searchStringList.get(j))){
-                    searchResult.add(users.get(i));
-                }
+        if(lastName == null && userName == null) {
+            users = userRepository.getUsersByFirstName(firstName);
+        }else if(userName == null)
+            users = userRepository.getUsersByFirstNameAndLastName(firstName, lastName);
+        else {
+            users = userRepository.getUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
         }
-        return searchResult;
+        if(users.isEmpty()) {
+            throw new InvalidInputException("No users with those parameters.");
+        }
+        return users;
     }
 
     private void validateUser(User user) {

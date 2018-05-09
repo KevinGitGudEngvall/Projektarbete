@@ -9,7 +9,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
@@ -41,7 +43,6 @@ public final class UserResource {
     @GET
     @Path("{userNumber}")
     public Response getUserByUserNumber(@PathParam("userNumber") Long userNumber) {
-
         return userService.getUserByUsernumber(userNumber)
                 .map(Response::ok)
                 .orElse(Response.status(NOT_FOUND))
@@ -58,13 +59,16 @@ public final class UserResource {
 
    }
 
-   @GET
-   public List<User> getUserByFirstNameAndOrLastNameAndOrUserName(@QueryParam("search") String searchString,
-                                                                  @QueryParam("search") String searchString2,
-                                                                  @QueryParam("search") String searchString3){
 
-        return userService.getUserByFirstNameAndOrLastNameAndOrUserName(searchString,searchString2,searchString3);
-   }
+   //senad seast
+    @GET
+    @Path("firstname/{firstName}")
+    public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
+                                             @QueryParam("lastName") String lastName,
+                                             @QueryParam("userName") String userName) {
+        return userService.testingFirstAndSecondName(firstName, lastName, userName);
+    }
+
 
     @PUT
     @Path("{userNumber}")
