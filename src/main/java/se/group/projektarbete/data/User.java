@@ -1,5 +1,7 @@
 package se.group.projektarbete.data;
 
+import se.group.projektarbete.data.workitemenum.Status;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,9 +21,9 @@ public final class User {
     @Column(nullable = false)
     private Long userNumber;
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
 
     @ManyToOne
@@ -30,12 +32,11 @@ public final class User {
     protected User() {
     }
 
-    public User(String firstName, String lastName, String userName, Long userNumber, Boolean active) {
+    public User(String firstName, String lastName, String userName, Long userNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
-        this.active = active;
     }
 
     public Long getId() {
@@ -74,15 +75,6 @@ public final class User {
         this.active = active;
     }
 
-    public void setFirstName(String firstName) {
-
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public void updateUser(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -91,18 +83,22 @@ public final class User {
         this.active = user.getActive();
     }
 
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public void setWorkItems(WorkItem workItem) {
         workItems.add(workItem);
         workItem.setUser(this);
     }
 
+    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
+        for (int i = 0; i < workItems.size(); i++) {
+            workItems.get(i).setStatus(Status.UNSTARTED);
+        }
+
+    }
+
     public void setTeam(Team team) {
         this.team = team;
     }
+
+
 }
 
