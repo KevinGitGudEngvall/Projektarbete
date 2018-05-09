@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
@@ -39,11 +40,18 @@ public final class UserResource {
     @GET
     @Path("{userNumber}")
     public Response getUserByUserNumber(@PathParam("userNumber") Long userNumber) {
-
         return userService.getUserByUsernumber(userNumber)
                 .map(Response::ok)
                 .orElse(Response.status(NOT_FOUND))
                 .build();
+    }
+
+    @GET
+    @Path("firstname/{firstName}")
+    public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
+                                             @QueryParam("lastName") String lastName,
+                                             @QueryParam("userName") String userName) {
+        return userService.findUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
     }
 
     @PUT

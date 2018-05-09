@@ -3,6 +3,7 @@ package se.group.projektarbete.data;
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,9 @@ public final class User {
     @Column(nullable = false)
     private Boolean active = true;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.PERSIST})
+
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST})
+
     List<WorkItem> workItems;
 
     @ManyToOne
@@ -37,6 +40,7 @@ public final class User {
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
+
     }
 
     public Long getId() {
