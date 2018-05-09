@@ -3,6 +3,7 @@ package se.group.projektarbete.service;
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.repository.UserRepository;
+import se.group.projektarbete.repository.WorkItemRepository;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,11 +12,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class UserService {
 
     private UserRepository userRepository;
+    private WorkItemRepository workItemRepository;
 
     private AtomicLong userNumbers;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, WorkItemRepository workItemRepository) {
         this.userRepository = userRepository;
+        this.workItemRepository = workItemRepository;
         userNumbers = new AtomicLong(this.userRepository.getHighestUserNumber().orElse(1000L));
     }
 
@@ -44,7 +47,7 @@ public final class UserService {
     public Boolean inactivateUser(Long userNumber) {
         if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
-            users.get().setToInactive(users.get().getWorkItems());
+            users.get().setToInactive(users.get());
             userRepository.save(users.get());
             return true;
         }
