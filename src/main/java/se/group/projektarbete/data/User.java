@@ -1,5 +1,7 @@
 package se.group.projektarbete.data;
 
+import se.group.projektarbete.data.workitemenum.Status;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public final class User {
     @Column(nullable = false)
     private Long userNumber;
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
@@ -30,12 +32,11 @@ public final class User {
     protected User() {
     }
 
-    public User(String firstName, String lastName, String userName, Long userNumber, Boolean active) {
+    public User(String firstName, String lastName, String userName, Long userNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
-        this.active = active;
     }
 
     public Long getId() {
@@ -70,6 +71,7 @@ public final class User {
         return team;
     }
 
+
     public void setActive(Boolean active) {
         this.active = active;
     }
@@ -101,8 +103,21 @@ public final class User {
         workItem.setUser(this);
     }
 
+    public void setToInactive(List<WorkItem> workItems) {
+        this.active = false;
+
+        for (int i = 0; i < workItems.size(); i++) {
+            WorkItem workItem = workItems.get(i);
+            workItem.setStatus(Status.UNSTARTED);
+        }
+        
+    }
+
+
     public void setTeam(Team team) {
         this.team = team;
     }
+
+
 }
 
