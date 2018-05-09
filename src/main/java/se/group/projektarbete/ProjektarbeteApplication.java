@@ -11,13 +11,13 @@ import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 
 @SpringBootApplication
-public class ProjektarbeteApplication implements CommandLineRunner {
+public class ProjektarbeteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjektarbeteApplication.class, args);
 	}
 
-	@Autowired
+	/*@Autowired
 	UserRepository userRepository;
 
 	@Autowired
@@ -34,5 +34,5 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		WorkItem workItem2 = workItemRepository.save(new WorkItem("W2", "W2", Status.UNSTARTED, user2));
 		WorkItem workItem3 = workItemRepository.save(new WorkItem("W3", "W3", Status.UNSTARTED, user3));
 		WorkItem workItem4 = workItemRepository.save(new WorkItem("W4", "W4", Status.UNSTARTED, user4));
-	}
+	}*/
 }

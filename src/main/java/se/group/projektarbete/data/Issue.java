@@ -20,6 +20,9 @@ public final class Issue {
         this.description = description;
         this.workItem = workItem;
     }
+    public void setWorkItem (WorkItem workItem){
+        this.workItem = workItem;
+    }
 
     public Long getId() {
         return id;
