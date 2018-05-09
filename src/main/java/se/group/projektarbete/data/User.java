@@ -1,6 +1,7 @@
 package se.group.projektarbete.data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public final class User {
     @Column(nullable = false)
     private Boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade={CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
 
     @ManyToOne
@@ -36,6 +37,7 @@ public final class User {
         this.userName = userName;
         this.userNumber = userNumber;
         this.active = active;
+        this.workItems = new ArrayList<>();
     }
 
     public Long getId() {
