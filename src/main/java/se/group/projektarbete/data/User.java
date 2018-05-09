@@ -25,8 +25,7 @@ public final class User {
     private Boolean active = true;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade={CascadeType.DETACH, CascadeType.PERSIST})
-
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST})
     List<WorkItem> workItems;
 
     @ManyToOne

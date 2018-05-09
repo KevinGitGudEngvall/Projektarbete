@@ -1,11 +1,14 @@
 package se.group.projektarbete.service;
 
 import org.springframework.stereotype.Service;
+import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -15,11 +18,13 @@ public final class UserService {
 
     private UserRepository userRepository;
     private WorkItemRepository workItemRepository;
+    private TeamRepository teamRepository;
     private AtomicLong userNumbers;
 
-    public UserService(UserRepository userRepository, WorkItemRepository workItemRepository) {
+    public UserService(UserRepository userRepository, WorkItemRepository workItemRepository, TeamRepository teamRepository) {
         this.userRepository = userRepository;
         this.workItemRepository = workItemRepository;
+        this.teamRepository = teamRepository;
         userNumbers = new AtomicLong(this.userRepository.getHighestUserNumber().orElse(1000L));
     }
 
@@ -72,6 +77,15 @@ public final class UserService {
             throw new InvalidInputException("No users with those parameters.");
         }
         return users;
+    }
+
+    public List<User> findAllUsersAtTeamByTeamName(String teamName) {
+        Optional<Team> team = teamRepository.findByName(teamName);
+
+       if(team.isPresent()) {
+            return userRepository.getAllByTeamId(team.get().getId());
+        }
+        throw new InvalidInputException("No team with that name: " + teamName);
     }
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
