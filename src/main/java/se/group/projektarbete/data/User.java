@@ -1,5 +1,7 @@
 package se.group.projektarbete.data;
 
+import se.group.projektarbete.data.workitemenum.Status;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -69,18 +71,8 @@ public final class User {
         return team;
     }
 
-
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public void setFirstName(String firstName) {
-
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public void updateUser(User user) {
@@ -91,22 +83,15 @@ public final class User {
         this.active = user.getActive();
     }
 
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public void setWorkItems(WorkItem workItem) {
         workItems.add(workItem);
         workItem.setUser(this);
     }
 
-    public void setToInactive(User user) {
-        user.setActive(false);
-
-
-
-
+    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
+        for (int i = 0; i < workItems.size(); i++) {
+            workItems.get(i).setStatus(Status.UNSTARTED);
+        }
 
     }
 
