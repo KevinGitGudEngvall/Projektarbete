@@ -59,6 +59,21 @@ public final class UserService {
         return false;
     }
 
+    public List<User> findUsersByFirstNameAndLastNameAndUserName(String firstName, String lastName, String userName) {
+        List<User> users;
+        if (lastName == null && userName == null) {
+            users = userRepository.getUsersByFirstName(firstName);
+        } else if (userName == null)
+            users = userRepository.getUsersByFirstNameAndLastName(firstName, lastName);
+        else {
+            users = userRepository.getUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
+        }
+        if (users.isEmpty()) {
+            throw new InvalidInputException("No users with those parameters.");
+        }
+        return users;
+    }
+
     private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
         if (!workItems.isEmpty()) {
             user.setWorkItemsToUnstarted(workItems);

@@ -39,9 +39,6 @@ public final class WorkItem {
         this.user = user;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
     public Long getId() {
         return id;
     }
@@ -69,6 +66,5 @@ public final class WorkItem {
     public void setUser(User user) {
         this.user = user;
     }
-
 
 }

@@ -1,21 +1,27 @@
 package se.group.projektarbete.web;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.service.TeamService;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.List;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 
 
 @Component
+@Consumes(APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
 @Path("teams")
 public final class TeamResource {
 
@@ -36,8 +42,35 @@ public final class TeamResource {
     }
 
     @PUT
-    public Response updateTeam(Team team){
-        teamService.updateTeam(team);
+    @Path("{id}")
+    public Response updateTeamById(@PathParam("id") Long id, Team team){
+        if(teamService.updateTeam(id,team)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
+    }
+
+    @PUT
+    @Path("{id}/inactivate")
+    public Response inactivateTeam(@PathParam("id") Long id) {
+        if (teamService.inactivateTeam(id)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
+    }
+
+    @GET
+    public List<Team> getAllTeams() {
+        return teamService.getAllTeams();
+    }
+
+    @PUT
+    @Path("{id}/users/{userNumber}")
+    public Response setUserToTeam(@PathParam("id") Long id,
+                                  @PathParam("userNumber") Long userNumber){
+        teamService.setUserToTeam(id,userNumber);
         return Response.status(OK).build();
     }
+
+
 }
