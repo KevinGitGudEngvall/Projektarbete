@@ -47,5 +47,4 @@ public final class Team {
         user.setTeam(this);
 
     }
-
 }

@@ -3,13 +3,12 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.service.UserService;
+import se.group.projektarbete.service.WorkItemService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
-import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
@@ -37,7 +36,6 @@ public final class UserResource {
                 uriInfo.getAbsolutePathBuilder().path(createdUser.getUserNumber().toString())).build();
     }
 
-
     @GET
     @Path("{userNumber}")
     public Response getUserByUserNumber(@PathParam("userNumber") Long userNumber) {
@@ -48,23 +46,15 @@ public final class UserResource {
                 .build();
     }
 
-   @PUT
-   @Path("{userNumber}/inactivate")
-   public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
-      if (userService.inactivateUser(userNumber)) {
-          return Response.status(OK).build();
-      }
-      return Response.status(NOT_FOUND).build();
+    @PUT
+    @Path("{userNumber}/inactivate")
+    public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
+        if (userService.inactivateUser(userNumber)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
 
-   }
-
-   @GET
-   public List<User> getUserByFirstNameAndOrLastNameAndOrUserName(@QueryParam("search") String searchString,
-                                                                  @QueryParam("search") String searchString2,
-                                                                  @QueryParam("search") String searchString3){
-
-        return userService.getUserByFirstNameAndOrLastNameAndOrUserName(searchString,searchString2,searchString3);
-   }
+    }
 
     @PUT
     @Path("{userNumber}")
