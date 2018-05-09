@@ -8,14 +8,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
-<<<<<<< HEAD
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-=======
->>>>>>> f6705a6fa12a2a44e70f127d827f5919413522f2
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
 
@@ -50,21 +44,6 @@ public final class UserResource {
                 .orElse(Response.status(NOT_FOUND))
                 .build();
     }
-
-<<<<<<< HEAD
-   @PUT
-   @Path("{userNumber}/inactivate")
-   public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
-      if (userService.inactivateUser(userNumber)) {
-          return Response.status(OK).build();
-      }
-      return Response.status(NOT_FOUND).build();
-
-   }
-
-
-   //senad seast
-    @GET
     @Path("firstname/{firstName}")
     public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
@@ -72,7 +51,6 @@ public final class UserResource {
         return userService.testingFirstAndSecondName(firstName, lastName, userName);
     }
 
-=======
     @PUT
     @Path("{userNumber}/inactivate")
     public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
@@ -82,7 +60,6 @@ public final class UserResource {
         return Response.status(NOT_FOUND).build();
 
     }
->>>>>>> f6705a6fa12a2a44e70f127d827f5919413522f2
 
     @PUT
     @Path("{userNumber}")
