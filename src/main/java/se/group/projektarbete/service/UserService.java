@@ -58,8 +58,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            List<WorkItem> workItems = workItemRepository.findAllByUser(users.get());
-            setWorkItemsToUnstarted(workItems, users.get());
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
             return true;
         }
         return false;
