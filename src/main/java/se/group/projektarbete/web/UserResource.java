@@ -45,6 +45,14 @@ public final class UserResource {
                 .build();
     }
 
+    @GET
+    @Path("team/{teamName}")
+    public List<User> getAllUsersFromSpecificTeam(@PathParam("teamName") String teamName) {
+        return userService.findAllUsersAtTeamByTeamName(teamName);
+
+
+    }
+
     @Path("firstname/{firstName}")
     public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
