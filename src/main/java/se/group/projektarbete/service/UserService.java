@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public final class UserService {
 
-    private UserRepository userRepository;
-    private WorkItemRepository workItemRepository;
-    private TeamRepository teamRepository;
+    private final UserRepository userRepository;
+    private final WorkItemRepository workItemRepository;
+    private final TeamRepository teamRepository;
     private AtomicLong userNumbers;
 
     public UserService(UserRepository userRepository, WorkItemRepository workItemRepository, TeamRepository teamRepository) {
