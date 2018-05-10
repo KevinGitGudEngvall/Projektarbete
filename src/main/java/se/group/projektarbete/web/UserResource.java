@@ -46,8 +46,7 @@ public final class UserResource {
     }
 
     @GET
-    @Path("firstname/{firstName}")
-    public List<User> getTodosByUserPriority(@PathParam("firstName") String firstName,
+    public List<User> getUsersByFirstNameAndLastNameAndUserName(@QueryParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
                                              @QueryParam("userName") String userName) {
         return userService.findUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
