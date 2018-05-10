@@ -3,7 +3,6 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.service.UserService;
-import se.group.projektarbete.service.WorkItemService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
