@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public final class UserService {
@@ -65,18 +66,13 @@ public final class UserService {
     }
 
     public List<User> findUsersByFirstNameAndLastNameAndUserName(String firstName, String lastName, String userName) {
-        List<User> users;
-        if (lastName == null && userName == null) {
-            users = userRepository.getUsersByFirstName(firstName);
-        } else if (userName == null)
-            users = userRepository.getUsersByFirstNameAndLastName(firstName, lastName);
-        else {
-            users = userRepository.getUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
-        }
-        if (users.isEmpty()) {
-            throw new InvalidInputException("No users with those parameters.");
-        }
-        return users;
+      return  userRepository.findAll().stream()
+                                      .filter(u ->
+                                      firstName != null && firstName.equalsIgnoreCase(u.getFirstName()) ||
+                                      lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
+                                      userName != null && userName.equalsIgnoreCase(u.getUserName()))
+                                      .collect(Collectors.toList());
+
     }
 
     public List<User> findAllUsersAtTeamByTeamName(String teamName) {
