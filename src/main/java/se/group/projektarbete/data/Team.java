@@ -63,5 +63,4 @@ public final class Team {
         this.name = team.getName();
         this.active = team.getActive();
     }
-
 }
