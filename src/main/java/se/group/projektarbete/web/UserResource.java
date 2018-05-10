@@ -54,7 +54,6 @@ public final class UserResource {
     }
 
     @GET
-    @Path("firstname/{firstName}")
     public List<User> getUsersByFirstNameAndLastNameAndUserName
                                             (@QueryParam("firstName") String firstName,
                                              @QueryParam("lastName") String lastName,
