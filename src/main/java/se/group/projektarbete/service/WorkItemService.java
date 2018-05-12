@@ -47,7 +47,7 @@ public final class WorkItemService {
 
 
 
-    public void addWorkItemToUser(Long workItemId, Long userId) {
+    public void addWorkItemByUserId(Long workItemId, Long userId) {
         List<WorkItem> workItems = workItemRepository.findAll().stream().filter(w -> w.getUser().getId().equals(userId))
                 .collect(Collectors.toList());
 
@@ -73,6 +73,7 @@ public final class WorkItemService {
         user.get().setWorkItems(workItem.get());
         workItemRepository.save(workItem.get());
     }
+
 }
 
 
