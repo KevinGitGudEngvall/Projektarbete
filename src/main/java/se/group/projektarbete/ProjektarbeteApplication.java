@@ -39,23 +39,33 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		User user1 = userRepository.save(new User("1", "1","1", 1000L));
-		User user2 = userRepository.save(new User("2", "2","2", 1001L));
-		User user3 = userRepository.save(new User("3", "3","3", 1002L));
-		User user4 = userRepository.save(new User("4", "4","4", 1003L));
+		User user1 = userRepository.save(new User("Senad", "Hasic","SenadHasic", 1000L));
+		User user2 = userRepository.save(new User("Ian", "McLovin","IanMcLovin", 1001L));
+		User user3 = userRepository.save(new User("Kevin", "Engvall","KevinEngvall", 1002L));
+		User user4 = userRepository.save(new User("Semi", "Turdean","SemiTurdean", 1003L));
+		User user5 = userRepository.save(new User("Johan", "Chefen","JohanChefen", 1004L));
+		User user6 = userRepository.save(new User("Java", "Pro","JavaPro", 1005L));
+		User user7 = userRepository.save(new User("SQL", "Pro","SQLPro", 1006L));
+		User user8 = userRepository.save(new User("C", "Pro","CPro", 1007L));
 
 		WorkItem workItem1 = workItemRepository.save(new WorkItem("W1", "W1", Status.STARTED, user1));
 		WorkItem workItem2 = workItemRepository.save(new WorkItem("W2", "W2", Status.STARTED, user1));
-		WorkItem workItem3 = workItemRepository.save(new WorkItem("W3", "W3", Status.UNSTARTED, user3));
-		WorkItem workItem4 = workItemRepository.save(new WorkItem("W4", "W4", Status.UNSTARTED, user4));
+		WorkItem workItem3 = workItemRepository.save(new WorkItem("W3", "W3", Status.UNSTARTED, user1));
+		WorkItem workItem4 = workItemRepository.save(new WorkItem("W4", "W4", Status.UNSTARTED, user1));
+		WorkItem workItem5 = workItemRepository.save(new WorkItem("W5", "W5", Status.UNSTARTED, user2));
+		WorkItem workItem6 = workItemRepository.save(new WorkItem("W6", "W6", Status.UNSTARTED, user2));
+		WorkItem workItem7 = workItemRepository.save(new WorkItem("W7", "W7", Status.UNSTARTED, user2));
+		WorkItem workItem8 = workItemRepository.save(new WorkItem("W8", "W8", Status.UNSTARTED, user2));
 
 		Team team = teamRepository.save(new Team("dev", true));
 
 		team.setUser(user1);
 		team.setUser(user2);
 
+		user3.setActive(false);
 		userRepository.save(user1);
 		userRepository.save(user2);
+		userRepository.save(user3);
 		teamRepository.save(team);
 	}
 

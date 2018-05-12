@@ -26,7 +26,7 @@ public final class User {
 
 
     @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST})
-    List<WorkItem> workItems;
+    private List<WorkItem> workItems;
 
     @ManyToOne
     private Team team;
@@ -39,7 +39,7 @@ public final class User {
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
-
+        this.workItems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -67,7 +67,7 @@ public final class User {
     }
 
     public List<WorkItem> getWorkItems() {
-        return workItems;
+        return this.workItems;
     }
 
     public Team getTeam() {
