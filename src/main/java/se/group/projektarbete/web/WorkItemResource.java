@@ -22,14 +22,11 @@ public class WorkItemResource {
         this.workItemService = workItemService;
     }
 
-
-    @GET
-    public Response getWorkItemByUserId(@QueryParam("workItemId") Long workItemId,
-                                        @QueryParam("userId") Long userId) {
+    @PUT
+    @Path("{id}/users/{userId}")
+    public Response addWorkItemByUserId(@PathParam("id")Long workItemId,
+                                        @PathParam("userId")Long userId) {
             workItemService.addWorkItemByUserId(workItemId, userId);
             return Response.status(Response.Status.CREATED).build();
-    }
-
-
-
+        }
 }
