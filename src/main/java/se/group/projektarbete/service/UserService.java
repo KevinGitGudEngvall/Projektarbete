@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public final class UserService {
 
-    private UserRepository userRepository;
-    private WorkItemRepository workItemRepository;
-    private TeamRepository teamRepository;
+    private final UserRepository userRepository;
+    private final WorkItemRepository workItemRepository;
+    private final TeamRepository teamRepository;
     private AtomicLong userNumbers;
 
     public UserService(UserRepository userRepository, WorkItemRepository workItemRepository, TeamRepository teamRepository) {
@@ -58,8 +58,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            List<WorkItem> workItems = workItemRepository.findAllByUser(users.get());
-            setWorkItemsToUnstarted(workItems, users.get());
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
             return true;
         }
         return false;
