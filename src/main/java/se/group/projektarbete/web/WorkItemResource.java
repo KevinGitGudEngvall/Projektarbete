@@ -41,11 +41,16 @@ public class WorkItemResource {
         return workItemService.findAllWorkItemsByTeamId(teamId);
     }
 
-
     @GET
     @Path("user/{id}")
     public List<WorkItem> getAllWorkItemsForUser(@PathParam("id")Long userId) {
         return workItemService.findAllWorkItemsByUserId(userId);
+    }
+
+    @GET
+    @Path("{description}")
+    public List<WorkItem> getWorkItemsByDescription(@PathParam("description") String value) {
+        return workItemService.findAllWorkItemsByDescription(value);
     }
 }
 

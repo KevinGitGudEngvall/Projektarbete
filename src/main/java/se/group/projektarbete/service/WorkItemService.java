@@ -91,7 +91,17 @@ public final class WorkItemService {
                 .filter(w -> w.getUser().getId().equals(userId))
                 .collect(Collectors.toList());
         if(workItems.isEmpty()) {
-            throw new InvalidInputException("No WorkItems for that userid.");
+            throw new InvalidInputException("No workitems for that userid.");
+        }
+        return workItems;
+    }
+
+    public List<WorkItem> findAllWorkItemsByDescription(String description) {
+        List<WorkItem> workItems = workItemRepository.findAll().stream()
+                .filter(w -> w.getDescription().contains(description))
+                .collect(Collectors.toList());
+        if(workItems.isEmpty()) {
+            throw new InvalidInputException("No workitems with that description");
         }
         return workItems;
     }

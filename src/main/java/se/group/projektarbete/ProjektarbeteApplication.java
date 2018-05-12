@@ -48,7 +48,7 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		User user7 = userRepository.save(new User("SQL", "Pro","SQLPro", 1006L));
 		User user8 = userRepository.save(new User("C", "Pro","CPro", 1007L));
 
-		WorkItem workItem1 = workItemRepository.save(new WorkItem("W1", "W1", Status.STARTED, user1));
+		WorkItem workItem1 = workItemRepository.save(new WorkItem("WorkItem number one", "WorkItemNumberOne", Status.STARTED, user1));
 		WorkItem workItem2 = workItemRepository.save(new WorkItem("W2", "W2", Status.STARTED, user1));
 		WorkItem workItem3 = workItemRepository.save(new WorkItem("W3", "W3", Status.UNSTARTED, user1));
 		WorkItem workItem4 = workItemRepository.save(new WorkItem("W4", "W4", Status.UNSTARTED, user1));
