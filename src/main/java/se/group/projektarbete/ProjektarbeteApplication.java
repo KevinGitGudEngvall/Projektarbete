@@ -58,10 +58,11 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		WorkItem workItem8 = workItemRepository.save(new WorkItem("W8", "W8", Status.UNSTARTED, user2));
 
 		Team team = teamRepository.save(new Team("dev", true));
+		Team team2 = teamRepository.save(new Team("production", true));
 
 		team.setUser(user1);
-		team.setUser(user2);
-
+		team2.setUser(user2);
+		team2.setUser(user3);
 		user3.setActive(false);
 		userRepository.save(user1);
 		userRepository.save(user2);

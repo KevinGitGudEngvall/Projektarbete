@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
@@ -55,10 +56,10 @@ public final class WorkItemService {
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
 
         if (!user.isPresent()) {
-            throw new InvalidInputException("No WorkItem with that id");
+            throw new InvalidInputException("No User with that id");
 
         } else if (!workItem.isPresent()) {
-            throw new InvalidInputException("No User with that id");
+            throw new InvalidInputException("No Workitem with that id");
 
         } else if(workItems.stream().anyMatch(w -> w.getId().equals(workItemId))) {
             throw new InvalidInputException("That workitem is alerady assigned to that user.");
@@ -74,6 +75,26 @@ public final class WorkItemService {
         workItemRepository.save(workItem.get());
     }
 
+
+    public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
+        List<User> users = userRepository.findUsersByTeamId(teamId);
+        if(users.isEmpty()){
+            throw new InvalidInputException("No workitems for that teamid.");
+        }
+        return workItemRepository.findAll().stream()
+                .filter(w -> w.getUser().getId().equals(users.listIterator().next().getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<WorkItem> findAllWorkItemsByUserId(Long userId){
+        List<WorkItem> workItems = workItemRepository.findAll().stream()
+                .filter(w -> w.getUser().getId().equals(userId))
+                .collect(Collectors.toList());
+        if(workItems.isEmpty()) {
+            throw new InvalidInputException("No WorkItems for that userid.");
+        }
+        return workItems;
+    }
 }
 
 
