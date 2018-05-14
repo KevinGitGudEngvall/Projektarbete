@@ -80,7 +80,9 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		userRepository.save(user3);
 		teamRepository.save(team);
 
+		workItem1.setIssue(issue);
 
+		workItemRepository.save(workItem1);
 	}
 
 
