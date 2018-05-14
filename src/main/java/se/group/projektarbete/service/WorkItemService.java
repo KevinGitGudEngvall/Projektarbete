@@ -26,14 +26,6 @@ public final class WorkItemService {
         this.userRepository = userRepository;
     }
 
-    public boolean removeWorkItem(Long id) {
-        if (workItemRepository.existsById(id)) {
-            workItemRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
             issue.setWorkItem(w);
@@ -43,10 +35,43 @@ public final class WorkItemService {
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(workItem);
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription(),
+                workItem.getStatus(), workItem.getUser()));
     }
 
+    public Boolean changeStatus(Long id, String status ) {
 
+        if (workItemRepository.findById(id).isPresent()) {
+            Optional<WorkItem> workItems = workItemRepository.findById(id);
+            validate(status);
+            workItems.get().setStatus(Status.valueOf(status));
+            workItemRepository.save(workItems.get());
+            return true;
+        }
+        return false;
+    }
+
+    public Optional<WorkItem> getItem(Long id) {
+        return workItemRepository.findById(id);
+    }
+
+    public Iterable<WorkItem> getAllItems() {
+        return workItemRepository.findAll();
+    }
+
+    public boolean deleteWorkItem(Long id) {
+        if(workItemRepository.existsById(id)){
+            workItemRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public void validate (String status) {
+        if(!status.equals("STARTED") || !status.equals("UNSTARTED") || !status.equals("DONE") ){
+            throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
+        }
+    }
 
     public void addWorkItemByUserId(Long workItemId, Long userId) {
         List<WorkItem> workItems = workItemRepository.findAll().stream().filter(w -> w.getUser().getId().equals(userId))
