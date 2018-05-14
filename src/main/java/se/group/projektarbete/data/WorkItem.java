@@ -63,9 +63,6 @@ public final class WorkItem {
         return user;
     }
 
-    public void setIssue(Issue issue){
-        this.issue = issue;
-    }
 
     public Issue getIssue() {
         return issue;

@@ -35,4 +35,5 @@ public final class Issue {
     public WorkItem getWorkItem() {
         return workItem;
     }
+
 }
