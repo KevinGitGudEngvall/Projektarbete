@@ -111,6 +111,12 @@ public class WorkItemResource {
         return Response.status(NO_CONTENT).build();
     }
 
+    @GET
+    @Path("issues")
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return workItemService.getAllWorkItemsWithIssues();
+    }
+
 }
 
 
