@@ -1,27 +1,22 @@
 package se.group.projektarbete.web;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
-import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.WorkItemService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import java.util.List;
 import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
-import static javax.ws.rs.core.Response.Status.OK;
 
 @Component
 @Consumes(APPLICATION_JSON)
@@ -59,8 +54,8 @@ public class WorkItemResource {
     @PUT
     @Path("{id}/status")
     public Response changeStatus(@PathParam("id") Long workItemId,
-                                        @QueryParam("set") String status) {
-        if(workItemService.changeStatus(workItemId, status)){
+                                 @QueryParam("set") String status) {
+        if (workItemService.changeStatus(workItemId, status)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
@@ -102,15 +97,16 @@ public class WorkItemResource {
         workItemService.addIssueToWorkItem(id, issue);
         return Response.status(CREATED).build();
     }
+
     @GET
     @Path("issues")
-    public List<WorkItem> getAllWorkItemsWithIssues(){
+    public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemService.getAllWorkItemsWithIssues();
     }
 
     @DELETE
     @Path("{id}")
-    public Response deleteWorkItem(@PathParam("id") Long id){
+    public Response deleteWorkItem(@PathParam("id") Long id) {
 
         workItemService.deleteWorkItem(id);
         return Response.status(NO_CONTENT).build();
