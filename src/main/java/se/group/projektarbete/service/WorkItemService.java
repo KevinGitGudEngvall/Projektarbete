@@ -35,7 +35,7 @@ public final class WorkItemService {
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription(), workItem.getUser()));
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
     public Boolean changeStatus(Long id, String status ) {
