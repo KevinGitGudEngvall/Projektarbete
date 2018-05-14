@@ -129,11 +129,7 @@ public final class WorkItemService {
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemRepository.findAll().stream()
-                .filter(w -> issueRepository.findAll().stream()
-                        .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
+                .filter(w -> issueRepository.findAll().stream().anyMatch(i -> i.getWorkItem().getId().equals(w.getId())))
+                .collect(Collectors.toList());
     }
 }
-
-
-
-
