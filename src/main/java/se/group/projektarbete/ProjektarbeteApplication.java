@@ -85,5 +85,4 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		workItemRepository.save(workItem1);
 	}
 
-
 }
