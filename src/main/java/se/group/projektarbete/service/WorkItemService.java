@@ -45,10 +45,8 @@ public final class WorkItemService {
     }
 
     public WorkItem createWorkItem(WorkItem workItem) {
-        // Exception hanterare för att se till att ett workitem har all nödvändig input
         return workItemRepository.save(workItem);
     }
-
 
     public void addWorkItemByUserId(Long workItemId, Long userId) {
         List<WorkItem> workItems = workItemRepository.findAll().stream().filter(w -> w.getUser().getId().equals(userId))
@@ -110,16 +108,7 @@ public final class WorkItemService {
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
 
-        List<WorkItem> workItems = workItemRepository.findAll().stream()
-                .filter(w -> w.getIssue().getId() != null)
-                .collect(Collectors.toList());
-        if(workItems.isEmpty()){
-            throw new InvalidInputException(("No issues"));
-
-        }
-
-        return workItems;
-
+        return workItemRepository.findAllByIssue_Id();
     }
 }
 

@@ -1,7 +1,6 @@
 package se.group.projektarbete.data;
 
 
-
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
@@ -29,8 +28,8 @@ public final class WorkItem {
     @OneToOne
     private Issue issue;
 
-    protected WorkItem(){}
-
+    protected WorkItem() {
+    }
 
     public WorkItem(String name, String description, Status status, User user) {
         this.name = name;
@@ -55,24 +54,23 @@ public final class WorkItem {
         return status;
     }
 
-    public void setIssue(Issue issue) {
-        this.issue = issue;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public User getUser() {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Issue getIssue() {
         return issue;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 }

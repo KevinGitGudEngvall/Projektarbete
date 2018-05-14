@@ -1,22 +1,17 @@
 package se.group.projektarbete.web;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.service.TeamService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.OK;
+import static javax.ws.rs.core.Response.Status.*;
 
 
 @Component
@@ -35,7 +30,7 @@ public final class TeamResource {
     }
 
     @POST
-    public Response createTeam(Team team){
+    public Response createTeam(Team team) {
         teamService.createTeam(team);
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(team.getName())).build();
@@ -43,8 +38,8 @@ public final class TeamResource {
 
     @PUT
     @Path("{id}")
-    public Response updateTeamById(@PathParam("id") Long id, Team team){
-        if(teamService.updateTeam(id,team)) {
+    public Response updateTeamById(@PathParam("id") Long id, Team team) {
+        if (teamService.updateTeam(id, team)) {
             return Response.status(OK).build();
         }
         return Response.status(NOT_FOUND).build();
@@ -67,8 +62,8 @@ public final class TeamResource {
     @PUT
     @Path("{id}/users/{userNumber}")
     public Response setUserToTeam(@PathParam("id") Long id,
-                                  @PathParam("userNumber") Long userNumber){
-        teamService.setUserToTeam(id,userNumber);
+                                  @PathParam("userNumber") Long userNumber) {
+        teamService.setUserToTeam(id, userNumber);
         return Response.status(OK).build();
     }
 

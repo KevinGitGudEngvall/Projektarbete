@@ -1,17 +1,14 @@
 package se.group.projektarbete.web;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
-import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.WorkItemService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -61,7 +58,7 @@ public class WorkItemResource {
 
     @GET
     @Path("issues")
-    public List<WorkItem> getAllWorkItemsWithIssues(){
+    public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemService.getAllWorkItemsWithIssues();
     }
 
