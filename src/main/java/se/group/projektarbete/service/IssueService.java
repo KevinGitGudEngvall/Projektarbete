@@ -3,6 +3,8 @@ package se.group.projektarbete.service;
 
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Issue;
+import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 
@@ -25,10 +27,10 @@ public final class IssueService {
 
     }
 
-    public Boolean updateIssue(Long id, Issue issue) {
+    public boolean updateIssue(Long id, Issue issue) {
         if(issueRepository.findById(id).isPresent()) {
             Optional<Issue> result = issueRepository.findById(id);
-            result.get().updateIssue(issue, result.get().getWorkItem());
+            result.get().setDescription(issue.getDescription());
             issueRepository.save(result.get());
             return true;
         }
