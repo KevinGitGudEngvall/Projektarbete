@@ -23,12 +23,12 @@ public final class IssueResource {
         this.issueService = issueService;
     }
 
-    @POST
+   /* @POST
     public Response createIssue (Issue issue){
         issueService.createIssue(issue);
         return Response.status(CREATED).build();
 
-        }
+        }*/
 
 
 
