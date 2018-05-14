@@ -1,6 +1,7 @@
 package se.group.projektarbete.data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public final class Issue {
@@ -20,9 +21,6 @@ public final class Issue {
         this.description = description;
         this.workItem = workItem;
     }
-    public void setWorkItem (WorkItem workItem){
-        this.workItem = workItem;
-    }
 
     public Long getId() {
         return id;
@@ -32,7 +30,12 @@ public final class Issue {
         return description;
     }
 
+    public void setWorkItem(WorkItem workItem){
+        this.workItem = workItem;
+    }
+
     public WorkItem getWorkItem() {
         return workItem;
     }
+
 }
