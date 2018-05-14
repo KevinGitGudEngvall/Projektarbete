@@ -74,6 +74,9 @@ public final class WorkItemService {
     }
 
     public void addWorkItemByUserId(Long workItemId, Long userId) {
+        List<WorkItem> workItems = workItemRepository.findAll().stream().filter(w -> w.getUser().getId().equals(userId))
+                .collect(Collectors.toList());
+
         Optional<User> user = userRepository.findById(userId);
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
 
@@ -83,18 +86,20 @@ public final class WorkItemService {
         } else if (!workItem.isPresent()) {
             throw new InvalidInputException("No Workitem with that id");
 
-        } else if(workItem.get().getUser().getId().equals(userId)) {
+        } else if(workItems.stream().anyMatch(w -> w.getId().equals(workItemId))) {
             throw new InvalidInputException("That workitem is alerady assigned to that user.");
 
-        } else if (user.get().getWorkItems().size() > 4){
+        } else if (workItems.size() > 4){
             throw new InvalidInputException("To many Workitems for that user");
 
         } else if(!user.get().getActive()) {
             throw new InvalidInputException("user is not active");
         }
+
         user.get().setWorkItems(workItem.get());
         workItemRepository.save(workItem.get());
     }
+
 
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
@@ -126,5 +131,11 @@ public final class WorkItemService {
         return workItems;
     }
 
-    //public List<WorkItem> getAllWorkItemsWithIssues(){}
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return null;
+    }
 }
+
+
+
+
