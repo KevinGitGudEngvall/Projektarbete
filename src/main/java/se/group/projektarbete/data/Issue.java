@@ -1,5 +1,7 @@
 package se.group.projektarbete.data;
 
+import se.group.projektarbete.data.workitemenum.Status;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,5 +36,9 @@ public final class Issue {
 
     public WorkItem getWorkItem() {
         return workItem;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

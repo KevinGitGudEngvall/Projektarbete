@@ -55,9 +55,14 @@ public final class WorkItem {
         return status;
     }
 
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
     public User getUser() {
         return user;
     }
+
 
     public Issue getIssue() {
         return issue;

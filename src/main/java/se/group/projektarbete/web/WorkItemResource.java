@@ -16,6 +16,7 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.OK;
 
 @Component
 @Consumes(APPLICATION_JSON)
@@ -58,12 +59,19 @@ public class WorkItemResource {
         return workItemService.findAllWorkItemsByDescription(value);
     }
 
+    @GET
+    @Path("issues")
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return workItemService.getAllWorkItemsWithIssues();
+    }
+
     @POST
     @Path("{id}/issues")
     public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
 
+        issueService.createIssue(issue);
         workItemService.addIssueToWorkItem(id, issue);
-        return Response.status(CREATED).build();
+        return Response.status(CREATED).status(OK).build();
     }
 }
 
