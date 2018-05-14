@@ -29,14 +29,15 @@ public final class WorkItemService {
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
             issue.setWorkItem(w);
+            w.setIssue(issue);
             issueRepository.save(issue);
+            workItemRepository.save(w);
         });
     }
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription(),
-                workItem.getStatus(), workItem.getUser()));
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
     public Boolean changeStatus(Long id, String status) {
@@ -104,7 +105,7 @@ public final class WorkItemService {
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
         if (users.isEmpty()) {
-            throw new InvalidInputException("No workitems for that teamid.");
+            throw new InvalidInputException("No users for that teamid.");
         }
         return workItemRepository.findAll().stream()
                 .filter(w -> w.getUser().getId().equals(users.listIterator().next().getId()))

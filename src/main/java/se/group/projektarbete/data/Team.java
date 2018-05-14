@@ -56,9 +56,4 @@ public final class Team {
         users.add(user);
         user.setTeam(this);
     }
-
-    public void updateTeam(Team team) {
-        this.name = team.getName();
-        this.active = team.getActive();
-    }
 }
