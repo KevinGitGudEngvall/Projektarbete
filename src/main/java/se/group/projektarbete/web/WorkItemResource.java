@@ -67,7 +67,7 @@ public class WorkItemResource {
     }
 
     @GET
-    public Iterable<WorkItem> getAllWorkItem() {
+    public List<WorkItem> getAllWorkItem() {
         return workItemService.getAllItems();
     }
 
@@ -90,7 +90,7 @@ public class WorkItemResource {
     }
 
     @GET
-    @Path("{description}")
+    @Path("desc/{description}")
     public List<WorkItem> getWorkItemsByDescription(@PathParam("description") String value) {
         return workItemService.findAllWorkItemsByDescription(value);
     }

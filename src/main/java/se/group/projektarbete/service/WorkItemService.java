@@ -55,7 +55,7 @@ public final class WorkItemService {
         return workItemRepository.findById(id);
     }
 
-    public Iterable<WorkItem> getAllItems() {
+    public List<WorkItem> getAllItems() {
         return workItemRepository.findAll();
     }
 
@@ -68,7 +68,7 @@ public final class WorkItemService {
     }
 
     public void validate (String status) {
-        if(!status.equals("STARTED") || !status.equals("UNSTARTED") || !status.equals("DONE") ){
+        if(!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE") ){
             throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
         }
     }
