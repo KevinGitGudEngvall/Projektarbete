@@ -105,6 +105,8 @@ public final class WorkItemService {
         }
         return workItems;
     }
+
+    //public List<WorkItem> getAllWorkItemsWithIssues(){}
 }
 
 

@@ -44,7 +44,7 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		User user3 = userRepository.save(new User("Kevin", "Engvall","KevinEngvall", 1002L));
 		User user4 = userRepository.save(new User("Semi", "Turdean","SemiTurdean", 1003L));
 		User user5 = userRepository.save(new User("Johan", "Chefen","JohanChefen", 1004L));
-		User user6 = userRepository.save(new User("Java", "Pro","JavaPro", 1005L));
+		User user6 = userRepository.save(new User("Joacim", "Otterbjörk","JavaPro", 1005L));
 		User user7 = userRepository.save(new User("SQL", "Pro","SQLPro", 1006L));
 		User user8 = userRepository.save(new User("C", "Pro","CPro", 1007L));
 
