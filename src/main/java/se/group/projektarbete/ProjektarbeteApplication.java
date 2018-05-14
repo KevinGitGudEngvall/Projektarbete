@@ -18,13 +18,13 @@ import se.group.projektarbete.service.TeamService;
 import se.group.projektarbete.service.UserService;
 
 @SpringBootApplication
-public class ProjektarbeteApplication {
+public class ProjektarbeteApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjektarbeteApplication.class, args);
 	}
 
-	/*@Autowired
+	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
@@ -48,7 +48,7 @@ public class ProjektarbeteApplication {
 	@Override
 	public void run(String... args) throws Exception {
 
-		/*User user1 = userRepository.save(new User("Senad", "Hasic","SenadHasic", 1000L));
+		User user1 = userRepository.save(new User("Senad", "Hasic","SenadHasic", 1000L));
 		User user2 = userRepository.save(new User("Ian", "McLovin","IanMcLovin", 1001L));
 		User user3 = userRepository.save(new User("Kevin", "Engvall","KevinEngvall", 1002L));
 		User user4 = userRepository.save(new User("Semi", "Turdean","SemiTurdean", 1003L));
@@ -83,6 +83,6 @@ public class ProjektarbeteApplication {
 		workItem1.setIssue(issue);
 
 		workItemRepository.save(workItem1);
-	} */
+	}
 
 }
