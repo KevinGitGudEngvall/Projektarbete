@@ -25,7 +25,7 @@ public final class User {
     private Boolean active = true;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST}, mappedBy = "user")
     private List<WorkItem> workItems;
 
     @ManyToOne
@@ -39,7 +39,7 @@ public final class User {
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
-        this.workItems = new ArrayList<>();
+        workItems = new ArrayList<>();
     }
 
     public Long getId() {
