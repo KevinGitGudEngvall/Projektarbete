@@ -95,7 +95,6 @@ public final class User {
         for (int i = 0; i < workItems.size(); i++) {
             workItems.get(i).setStatus(Status.UNSTARTED);
         }
-
     }
 
     public void setTeam(Team team) {

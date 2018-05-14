@@ -80,7 +80,7 @@ public final class UserService {
        if(team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new InvalidInputException("No team with that name: " + teamName);
+        throw new InvalidInputException("No team with teamname: " + teamName);
     }
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
