@@ -38,7 +38,7 @@ public final class Issue {
         return workItem;
     }
 
-    public void updateIssue(Issue issue) {
-        this.description = issue.getDescription();
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
