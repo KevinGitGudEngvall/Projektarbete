@@ -5,7 +5,6 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import se.group.projektarbete.web.mapper.InvalidInputMapper;
 
 @Configuration
 public class JerseyConfig extends ResourceConfig {

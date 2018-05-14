@@ -25,7 +25,7 @@ public final class User {
     private Boolean active = true;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST}, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST}, mappedBy = "user")
     private List<WorkItem> workItems;
 
     @ManyToOne
@@ -66,16 +66,25 @@ public final class User {
         return active;
     }
 
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public List<WorkItem> getWorkItems() {
         return this.workItems;
+    }
+
+    public void setWorkItems(WorkItem workItem) {
+        workItems.add(workItem);
+        workItem.setUser(this);
     }
 
     public Team getTeam() {
         return team;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public void updateUser(User user) {
@@ -86,20 +95,11 @@ public final class User {
         this.active = user.getActive();
     }
 
-    public void setWorkItems(WorkItem workItem) {
-        workItems.add(workItem);
-        workItem.setUser(this);
-    }
-
     public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         for (int i = 0; i < workItems.size(); i++) {
             workItems.get(i).setStatus(Status.UNSTARTED);
         }
 
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
 
