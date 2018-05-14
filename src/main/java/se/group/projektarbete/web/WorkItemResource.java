@@ -1,6 +1,5 @@
 package se.group.projektarbete.web;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.WorkItem;
@@ -21,7 +20,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 public class WorkItemResource {
 
     private final WorkItemService workItemService;
-
 
     public WorkItemResource(WorkItemService workItemService) {
         this.workItemService = workItemService;
