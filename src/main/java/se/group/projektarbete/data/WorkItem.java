@@ -63,6 +63,7 @@ public final class WorkItem {
         return user;
     }
 
+
     public Issue getIssue() {
         return issue;
     }
