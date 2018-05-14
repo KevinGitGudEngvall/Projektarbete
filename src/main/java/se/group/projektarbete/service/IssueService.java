@@ -6,6 +6,7 @@ import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 
+import java.util.Optional;
 
 
 @Service
@@ -26,7 +27,9 @@ public final class IssueService {
 
     public Boolean updateIssue(Long id, Issue issue) {
         if(issueRepository.findById(id).isPresent()) {
-            issue.updateIssue(issue);
+            Optional<Issue> result = issueRepository.findById(id);
+            result.get().updateIssue(issue, result.get().getWorkItem());
+            issueRepository.save(result.get());
             return true;
         }
         return false;
