@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.data.workitemenum.Status;
+import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.TeamService;
 import se.group.projektarbete.service.UserService;
 
@@ -36,6 +39,12 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 	@Autowired
 	TeamService teamService;
 
+	@Autowired
+	IssueRepository issueRepository;
+
+	@Autowired
+	IssueService issueService;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -44,7 +53,7 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		User user3 = userRepository.save(new User("Kevin", "Engvall","KevinEngvall", 1002L));
 		User user4 = userRepository.save(new User("Semi", "Turdean","SemiTurdean", 1003L));
 		User user5 = userRepository.save(new User("Johan", "Chefen","JohanChefen", 1004L));
-		User user6 = userRepository.save(new User("Java", "Pro","JavaPro", 1005L));
+		User user6 = userRepository.save(new User("Joacim", "Otterbjörk","JavaPro", 1005L));
 		User user7 = userRepository.save(new User("SQL", "Pro","SQLPro", 1006L));
 		User user8 = userRepository.save(new User("C", "Pro","CPro", 1007L));
 
@@ -57,6 +66,8 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		WorkItem workItem7 = workItemRepository.save(new WorkItem("W7", "W7", Status.UNSTARTED, user2));
 		WorkItem workItem8 = workItemRepository.save(new WorkItem("W8", "W8", Status.UNSTARTED, user2));
 
+		Issue issue = issueRepository.save(new Issue("Knas", workItem1));
+
 		Team team = teamRepository.save(new Team("dev", true));
 		Team team2 = teamRepository.save(new Team("production", true));
 
@@ -68,6 +79,8 @@ public class ProjektarbeteApplication implements CommandLineRunner {
 		userRepository.save(user2);
 		userRepository.save(user3);
 		teamRepository.save(team);
+
+
 	}
 
 

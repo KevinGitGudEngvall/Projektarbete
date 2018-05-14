@@ -79,6 +79,8 @@ public final class UserResource {
         }
         return Response.status(NOT_FOUND).build();
     }
+
+
 }
 
 
