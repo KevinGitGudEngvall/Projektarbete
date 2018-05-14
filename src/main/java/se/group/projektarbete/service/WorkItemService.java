@@ -131,7 +131,9 @@ public final class WorkItemService {
         return workItems;
     }
 
-    //public List<WorkItem> getAllWorkItemsWithIssues(){}
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return null;
+    }
 }
 
 

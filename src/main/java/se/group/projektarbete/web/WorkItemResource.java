@@ -102,6 +102,11 @@ public class WorkItemResource {
         workItemService.addIssueToWorkItem(id, issue);
         return Response.status(CREATED).build();
     }
+    @GET
+    @Path("issues")
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return workItemService.getAllWorkItemsWithIssues();
+    }
 
     @DELETE
     @Path("{id}")
