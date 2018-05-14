@@ -29,18 +29,17 @@ public final class WorkItemService {
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
             issue.setWorkItem(w);
-            w.setIssue(issue);
             issueRepository.save(issue);
-            workItemRepository.save(w);
         });
     }
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription(),
+                workItem.getStatus(), workItem.getUser()));
     }
 
-    public Boolean changeStatus(Long id, String status) {
+    public Boolean changeStatus(Long id, String status ) {
 
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
@@ -61,15 +60,15 @@ public final class WorkItemService {
     }
 
     public boolean deleteWorkItem(Long id) {
-        if (workItemRepository.existsById(id)) {
+        if(workItemRepository.existsById(id)){
             workItemRepository.deleteById(id);
             return true;
         }
         return false;
     }
 
-    public void validate(String status) {
-        if (!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE")) {
+    public void validate (String status) {
+        if(!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE") ){
             throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
         }
     }
@@ -87,13 +86,13 @@ public final class WorkItemService {
         } else if (!workItem.isPresent()) {
             throw new InvalidInputException("No Workitem with that id");
 
-        } else if (workItems.stream().anyMatch(w -> w.getId().equals(workItemId))) {
+        } else if(workItems.stream().anyMatch(w -> w.getId().equals(workItemId))) {
             throw new InvalidInputException("That workitem is alerady assigned to that user.");
 
-        } else if (workItems.size() > 4) {
+        } else if (workItems.size() > 4){
             throw new InvalidInputException("To many Workitems for that user");
 
-        } else if (!user.get().getActive()) {
+        } else if(!user.get().getActive()) {
             throw new InvalidInputException("user is not active");
         }
 
@@ -104,19 +103,19 @@ public final class WorkItemService {
 
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
-        if (users.isEmpty()) {
-            throw new InvalidInputException("No users for that teamid.");
+        if(users.isEmpty()){
+            throw new InvalidInputException("No workitems for that teamid.");
         }
         return workItemRepository.findAll().stream()
                 .filter(w -> w.getUser().getId().equals(users.listIterator().next().getId()))
                 .collect(Collectors.toList());
     }
 
-    public List<WorkItem> findAllWorkItemsByUserId(Long userId) {
+    public List<WorkItem> findAllWorkItemsByUserId(Long userId){
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> w.getUser().getId().equals(userId))
                 .collect(Collectors.toList());
-        if (workItems.isEmpty()) {
+        if(workItems.isEmpty()) {
             throw new InvalidInputException("No workitems for that userid.");
         }
         return workItems;
@@ -126,13 +125,13 @@ public final class WorkItemService {
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> w.getDescription().contains(description))
                 .collect(Collectors.toList());
-        if (workItems.isEmpty()) {
+        if(workItems.isEmpty()) {
             throw new InvalidInputException("No workitems with that description");
         }
         return workItems;
     }
 
-    public List<WorkItem> getAllWorkItemsWithIssues() {
+    public List<WorkItem> getAllWorkItemsWithIssues(){
         return null;
     }
 }

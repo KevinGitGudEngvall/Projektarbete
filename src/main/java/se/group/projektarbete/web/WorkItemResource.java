@@ -98,18 +98,18 @@ public class WorkItemResource {
         return Response.status(CREATED).build();
     }
 
-    @GET
-    @Path("issues")
-    public List<WorkItem> getAllWorkItemsWithIssues() {
-        return workItemService.getAllWorkItemsWithIssues();
-    }
-
     @DELETE
     @Path("{id}")
     public Response deleteWorkItem(@PathParam("id") Long id) {
 
         workItemService.deleteWorkItem(id);
         return Response.status(NO_CONTENT).build();
+    }
+
+    @GET
+    @Path("issues")
+    public List<WorkItem> getAllWorkItemsWithIssues(){
+        return workItemService.getAllWorkItemsWithIssues();
     }
 
 }

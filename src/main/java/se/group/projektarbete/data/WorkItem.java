@@ -4,6 +4,7 @@ package se.group.projektarbete.data;
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public final class WorkItem {
@@ -23,9 +24,11 @@ public final class WorkItem {
     private Status status;
 
     @ManyToOne
+    @XmlTransient
     private User user;
 
     @OneToOne
+    @XmlTransient
     private Issue issue;
 
     protected WorkItem() {
