@@ -30,7 +30,7 @@ public final class IssueService {
     public boolean updateIssue(Long id, Issue issue) {
         if(issueRepository.findById(id).isPresent()) {
             Optional<Issue> result = issueRepository.findById(id);
-           // result.get().updateIssue(issue);
+            result.get().setDescription(issue.getDescription());
             issueRepository.save(result.get());
             return true;
         }
