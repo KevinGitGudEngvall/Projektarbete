@@ -35,4 +35,9 @@ public final class Issue {
     public WorkItem getWorkItem() {
         return workItem;
     }
+
+    public void updateIssue(Issue issue) {
+        this.description = issue.getDescription();
+        this.workItem = issue.getWorkItem();
+    }
 }
