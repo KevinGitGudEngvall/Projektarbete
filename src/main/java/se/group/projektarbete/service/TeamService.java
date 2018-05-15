@@ -25,10 +25,9 @@ public final class TeamService {
     }
 
     public boolean updateTeam(Long id, Team team) {
-        validateTeam(team);
         if (teamRepository.findById(id).isPresent()) {
             Optional<Team> teams = teamRepository.findById(id);
-            teams.get().updateTeam(team);
+            teams.get().setName(team.getName());
             teamRepository.save(teams.get());
             return true;
         }
@@ -67,12 +66,12 @@ public final class TeamService {
                 userRepository.save(user.get());
             });
         } else
-            throw new InvalidInputException("User is already assigned to team" + team.get().getName());
+            throw new InvalidInputException("User is already assigned to a team");
 
     }
 
     private void validateTeam(Team team) {
-        if (team.getUsers().size() == 9) {
+        if (team.getUsers().size() > 9) {
             throw new InvalidInputException("Team cannot have more than 10 users");
         }
     }
