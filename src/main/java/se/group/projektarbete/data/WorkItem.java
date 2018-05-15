@@ -27,7 +27,7 @@ public final class WorkItem {
     @XmlTransient
     private User user;
 
-    @OneToOne
+    @OneToOne (orphanRemoval = true)
     @XmlTransient
     private Issue issue;
 

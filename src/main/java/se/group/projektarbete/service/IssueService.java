@@ -34,7 +34,6 @@ public final class IssueService {
         }
         return false;
     }
-
 }
 
 

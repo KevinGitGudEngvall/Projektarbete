@@ -124,14 +124,21 @@ public final class WorkItemService {
     }
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
-        return workItemRepository.findAll().stream()
+
+
+        List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> issueRepository.findAll().stream()
                         .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
+
+        if(workItems.isEmpty()) {
+            throw new BadWorkitemException("No workitems found with issues");
+        }
+        return workItems;
     }
 
     private void validateWorkItem(Long id){
         if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
-            throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
+            throw new BadIssueException("Cant add an issue to a workitem that is not DONE");
         }
     }
 }
