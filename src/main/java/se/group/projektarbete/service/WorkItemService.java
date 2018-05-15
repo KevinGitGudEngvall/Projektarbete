@@ -39,7 +39,7 @@ public final class WorkItemService {
                 workItem.getStatus(), workItem.getUser()));
     }
 
-    public Boolean changeStatus(Long id, String status ) {
+    public boolean changeStatus(Long id, String status ) {
 
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
@@ -134,6 +134,10 @@ public final class WorkItemService {
     public List<WorkItem> getAllWorkItemsWithIssues(){
         return null;
     }
+
+
+
+
 }
 
 
