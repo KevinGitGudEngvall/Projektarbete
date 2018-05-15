@@ -15,12 +15,16 @@ public final class User {
 
     @Column(nullable = false)
     private String firstName;
+
     @Column(nullable = false)
     private String lastName;
+
     @Column(nullable = false)
     private String userName;
+
     @Column(nullable = false)
     private Long userNumber;
+
     @Column(nullable = false)
     private Boolean active = true;
 
@@ -99,7 +103,4 @@ public final class User {
             workItems.get(i).setStatus(Status.UNSTARTED);
         }
     }
-
-
 }
-

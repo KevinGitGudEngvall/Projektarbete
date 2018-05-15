@@ -38,12 +38,10 @@ public final class WorkItemService {
     }
 
     public WorkItem createWorkItem(WorkItem workItem) {
-        // Exception hanterare för att se till att ett workitem har all nödvändig input
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
-    public Boolean changeStatus(Long id, String status ) {
-
+    public boolean changeStatus(Long id, String status) {
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
             validate(status);
@@ -63,32 +61,24 @@ public final class WorkItemService {
     }
 
     public boolean deleteWorkItem(Long id) {
-        if(workItemRepository.existsById(id)){
+        if (workItemRepository.existsById(id)) {
             workItemRepository.deleteById(id);
             return true;
         }
         return false;
     }
 
-    public void validate (String status) {
-        if(!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE") ){
-            throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
-        }
-    }
-
     public void addWorkItemByUserId(Long workItemId, Long userId) {
         Optional<User> user = userRepository.findById(userId);
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
+
         if (!user.isPresent()) {
             throw new InvalidInputException("No User with that id");
-
         } else if (!workItem.isPresent()) {
             throw new InvalidInputException("No Workitem with that id");
-
-        } else if (user.get().getWorkItems().size() > 4){
+        } else if (user.get().getWorkItems().size() > 4) {
             throw new InvalidInputException("To many Workitems for that user");
-
-        } else if(!user.get().getActive()) {
+        } else if (!user.get().getActive()) {
             throw new InvalidInputException("user is not active");
         }
 
@@ -98,7 +88,8 @@ public final class WorkItemService {
 
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
-        if(users.isEmpty()){
+
+        if (users.isEmpty()) {
             throw new InvalidInputException("No users for that teamid.");
         }
         return workItemRepository.findAll().stream()
@@ -106,9 +97,10 @@ public final class WorkItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<WorkItem> findAllWorkItemsByUserId(Long userId){
+    public List<WorkItem> findAllWorkItemsByUserId(Long userId) {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
-        if(workItems.isEmpty()) {
+
+        if (workItems.isEmpty()) {
             throw new InvalidInputException("No workitems for that userid.");
         }
         return workItems;
@@ -118,44 +110,45 @@ public final class WorkItemService {
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> w.getDescription().contains(description))
                 .collect(Collectors.toList());
-        if(workItems.isEmpty()) {
+
+        if (workItems.isEmpty()) {
             throw new InvalidInputException("No workitems with that description");
         }
         return workItems;
     }
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
-
-
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> issueRepository.findAll().stream()
                         .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
 
-        if(workItems.isEmpty()) {
+        if (workItems.isEmpty()) {
             throw new BadWorkitemException("No workitems found with issues");
         }
         return workItems;
     }
 
-    private void validateWorkItem(Long id){
-        if(!workItemRepository.findById(id).isPresent()){
-            throw new InvalidInputException("No workitem was found with that Id..");
-        }
-        if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
-            throw new BadIssueException("Cant add an issue to a workitem that is not DONE");
-        }
-    }
-
     public List<WorkItem> findAllWorkItemsByStatus(Status status) {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
-        if(workItems.isEmpty()) {
+
+        if (workItems.isEmpty()) {
             throw new InvalidInputException("No workitems with that status");
         }
         return workItems;
     }
 
- }
+    private void validateWorkItem(Long id) {
+        if (!workItemRepository.findById(id).isPresent()) {
+            throw new InvalidInputException("No workitem was found with that Id..");
+        }
+        if (!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")) {
+            throw new BadIssueException("Cant add an issue to a workitem that is not DONE");
+        }
+    }
 
-
-
-
+    private void validate(String status) {
+        if (!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE")) {
+            throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
+        }
+    }
+}

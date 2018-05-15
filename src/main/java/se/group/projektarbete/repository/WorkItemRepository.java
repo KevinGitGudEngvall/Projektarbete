@@ -14,6 +14,6 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long> {
     List<WorkItem> findAll();
 
     List<WorkItem> findWorkItemsByUserId(Long userId);
-    
+
     List<WorkItem> findWorkItemsByStatus(Status status);
 }

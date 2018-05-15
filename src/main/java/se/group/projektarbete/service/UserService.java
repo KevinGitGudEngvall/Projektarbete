@@ -70,7 +70,6 @@ public final class UserService {
                                 lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
                                 userName != null && userName.equalsIgnoreCase(u.getUserName()))
                 .collect(Collectors.toList());
-
     }
 
     public List<User> findAllUsersAtTeamByTeamName(String teamName) {

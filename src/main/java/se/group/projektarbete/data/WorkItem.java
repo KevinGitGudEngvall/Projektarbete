@@ -27,13 +27,12 @@ public final class WorkItem {
     @XmlTransient
     private User user;
 
-    @OneToOne (orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     @XmlTransient
     private Issue issue;
 
     protected WorkItem() {
     }
-
 
     public WorkItem(String name, String description) {
         this.name = name;

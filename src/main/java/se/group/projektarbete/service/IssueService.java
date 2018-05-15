@@ -22,7 +22,6 @@ public final class IssueService {
 
     public Issue createIssue(Issue issue) {
         return issueRepository.save(issue);
-
     }
 
     public boolean updateIssue(Long id, Issue issue) {
@@ -35,5 +34,3 @@ public final class IssueService {
         return false;
     }
 }
-
-

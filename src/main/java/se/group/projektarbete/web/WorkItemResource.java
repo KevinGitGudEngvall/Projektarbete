@@ -44,6 +44,13 @@ public class WorkItemResource {
                 uriInfo.getAbsolutePathBuilder().path(createdWorkItem.getId().toString())).build();
     }
 
+    @POST
+    @Path("{id}/issues")
+    public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
+        workItemService.addIssueToWorkItem(id, issue);
+        return Response.status(CREATED).build();
+    }
+
     @PUT
     @Path("{id}/users/{userId}")
     public Response addWorkItemByUserId(@PathParam("id") Long workItemId,
@@ -91,34 +98,22 @@ public class WorkItemResource {
         return workItemService.findAllWorkItemsByDescription(value);
     }
 
-    @POST
-    @Path("{id}/issues")
-    public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
-
-        workItemService.addIssueToWorkItem(id, issue);
-        return Response.status(CREATED).build();
-    }
-
-    @DELETE
-    @Path("{id}")
-    public Response deleteWorkItem(@PathParam("id") Long id) {
-
-        workItemService.deleteWorkItem(id);
-        return Response.status(NO_CONTENT).build();
-    }
-
     @GET
     @Path("issues")
-    public List<WorkItem> getAllWorkItemsWithIssues(){
+    public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemService.getAllWorkItemsWithIssues();
     }
 
     @GET
     @Path("stat/{statusValue}")
-    public List<WorkItem> getAllWorkItemsByStatus(@PathParam("statusValue") Status statValue){
+    public List<WorkItem> getAllWorkItemsByStatus(@PathParam("statusValue") Status statValue) {
         return workItemService.findAllWorkItemsByStatus(statValue);
     }
 
+    @DELETE
+    @Path("{id}")
+    public Response deleteWorkItem(@PathParam("id") Long id) {
+        workItemService.deleteWorkItem(id);
+        return Response.status(NO_CONTENT).build();
+    }
 }
-
-

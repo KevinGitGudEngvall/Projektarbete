@@ -9,6 +9,7 @@ import java.util.Collections;
 
 @Provider
 public class BadIssueMapper implements ExceptionMapper<BadIssueException> {
+
     @Override
     public Response toResponse(BadIssueException e) {
         return Response.status(Response.Status.BAD_REQUEST)

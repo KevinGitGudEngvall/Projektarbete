@@ -24,7 +24,7 @@ public final class Team {
     public Team(String name, Boolean active) {
         this.name = name;
         this.active = active;
-        this.users = new ArrayList<>();
+        users = new ArrayList<>();
     }
 
     public Long getId() {

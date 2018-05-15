@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 import static javax.ws.rs.core.Response.Status.OK;
 
 @Component
@@ -34,4 +33,3 @@ public final class IssueResource {
         return Response.status(NOT_FOUND).build();
     }
 }
-
