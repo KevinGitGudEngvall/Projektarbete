@@ -1,20 +1,18 @@
 package se.group.projektarbete.web.mapper;
 
-import se.group.projektarbete.service.InvalidInputException;
+import se.group.projektarbete.service.BadIssueException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.util.Collections;
 
-
 @Provider
-public class InvalidInputMapper implements ExceptionMapper<InvalidInputException> {
-
+public class BadIssueMapper implements ExceptionMapper<BadIssueException> {
     @Override
-    public Response toResponse(InvalidInputException exception) {
+    public Response toResponse(BadIssueException e) {
         return Response.status(Response.Status.BAD_REQUEST)
-                .entity(Collections.singletonMap("error", exception.getMessage()))
+                .entity(Collections.singletonMap("error", e.getMessage()))
                 .build();
     }
 }

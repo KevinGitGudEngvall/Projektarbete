@@ -20,15 +20,14 @@ public final class TeamService {
         this.userRepository = userRepository;
     }
 
-    public Team createTeam(Team team){
+    public Team createTeam(Team team) {
         return teamRepository.save(team);
     }
 
-    public boolean updateTeam(Long id, Team team){
-        validateTeam(team);
+    public boolean updateTeam(Long id, Team team) {
         if (teamRepository.findById(id).isPresent()) {
             Optional<Team> teams = teamRepository.findById(id);
-            teams.get().updateTeam(team);
+            teams.get().setName(team.getName());
             teamRepository.save(teams.get());
             return true;
         }
@@ -51,29 +50,28 @@ public final class TeamService {
         return teams;
     }
 
-    public void setUserToTeam(Long id, Long userNumber){
+    public void setUserToTeam(Long id, Long userNumber) {
 
         Optional<Team> team = teamRepository.findById(id);
         Optional<User> user = userRepository.findUserByuserNumber(userNumber);
 
-
-        if(!team.isPresent()) {
+        if (!team.isPresent()) {
             throw new InvalidInputException("No team matching that ID was found");
-        } else if(!user.isPresent()) {
+        } else if (!user.isPresent()) {
             throw new InvalidInputException("No user matching that ID was found");
-        } else if(user.get().getTeam() == null){
+        } else if (user.get().getTeam() == null) {
             validateTeam(team.get());
             user.ifPresent(u -> {
-            team.get().setUser(u);
-            userRepository.save(user.get());
-        });
+                team.get().setUser(u);
+                userRepository.save(user.get());
+            });
         } else
-            throw new InvalidInputException("User is already assigned to team" + team.get().getName());
+            throw new InvalidInputException("User is already assigned to a team");
 
     }
 
-    private void validateTeam(Team team){
-        if(team.getUsers().size() == 9) {
+    private void validateTeam(Team team) {
+        if (team.getUsers().size() > 9) {
             throw new InvalidInputException("Team cannot have more than 10 users");
         }
     }
