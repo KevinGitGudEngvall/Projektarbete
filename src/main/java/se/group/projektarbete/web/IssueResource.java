@@ -24,13 +24,6 @@ public final class IssueResource {
         this.issueService = issueService;
     }
 
-   /* @POST
-    public Response createIssue (Issue issue){
-        issueService.createIssue(issue);
-        return Response.status(CREATED).build();
-
-        }*/
-
     @PUT
     @Path("{id}")
     public Response updateIssue(@PathParam("id") Long id, Issue issue) {
