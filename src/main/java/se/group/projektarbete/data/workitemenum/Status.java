@@ -1,7 +1,8 @@
 package se.group.projektarbete.data.workitemenum;
 
-public enum Status {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public enum Status {
     UNSTARTED,
     STARTED,
     DONE

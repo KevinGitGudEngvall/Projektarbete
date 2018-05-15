@@ -27,8 +27,9 @@ public final class WorkItemService {
     }
 
     public void addIssueToWorkItem(Long id, Issue issue) {
+        validateWorkItem(id);
         workItemRepository.findById(id).ifPresent(w -> {
-            validateWorkItem(id);
+            w.setStatus(Status.UNSTARTED);
             issue.setWorkItem(w);
             w.setIssue(issue);
             issueRepository.save(issue);
@@ -137,11 +138,23 @@ public final class WorkItemService {
     }
 
     private void validateWorkItem(Long id){
+        if(!workItemRepository.findById(id).isPresent()){
+            throw new InvalidInputException("No workitem was found with that Id..");
+        }
         if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
             throw new BadIssueException("Cant add an issue to a workitem that is not DONE");
         }
     }
-}
+
+    public List<WorkItem> findAllWorkItemsByStatus(Status status) {
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
+        if(workItems.isEmpty()) {
+            throw new InvalidInputException("No workitems with that status");
+        }
+        return workItems;
+    }
+
+ }
 
 
 

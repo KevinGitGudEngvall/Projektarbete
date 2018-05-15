@@ -4,6 +4,7 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.WorkItemService;
 
@@ -110,6 +111,12 @@ public class WorkItemResource {
     @Path("issues")
     public List<WorkItem> getAllWorkItemsWithIssues(){
         return workItemService.getAllWorkItemsWithIssues();
+    }
+
+    @GET
+    @Path("stat/{statusValue}")
+    public List<WorkItem> getAllWorkItemsByStatus(@PathParam("statusValue") Status statValue){
+        return workItemService.findAllWorkItemsByStatus(statValue);
     }
 
 }
