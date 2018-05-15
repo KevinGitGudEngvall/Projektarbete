@@ -1,10 +1,10 @@
 package se.group.projektarbete.data;
 
 
-
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public final class WorkItem {
@@ -24,19 +24,21 @@ public final class WorkItem {
     private Status status;
 
     @ManyToOne
+    @XmlTransient
     private User user;
 
     @OneToOne
+    @XmlTransient
     private Issue issue;
 
-    protected WorkItem(){}
+    protected WorkItem() {
+    }
 
 
-    public WorkItem(String name, String description, Status status, User user) {
+    public WorkItem(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
-        this.user = user;
+        status = Status.UNSTARTED;
     }
 
     public Long getId() {
@@ -55,19 +57,23 @@ public final class WorkItem {
         return status;
     }
 
-    public User getUser() {
-        return user;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public Issue getIssue() {
-        return issue;
+    public User getUser() {
+        return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 }

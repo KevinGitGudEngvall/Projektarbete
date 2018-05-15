@@ -8,7 +8,6 @@ import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,7 +41,7 @@ public final class UserService {
         return userRepository.findUserByuserNumber(userNumber);
     }
 
-    public Boolean updateUser(Long userNumber, User user) {
+    public boolean updateUser(Long userNumber, User user) {
         validateUser(user);
         if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
@@ -53,7 +52,7 @@ public final class UserService {
         return false;
     }
 
-    public Boolean inactivateUser(Long userNumber) {
+    public boolean inactivateUser(Long userNumber) {
         if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
@@ -65,19 +64,19 @@ public final class UserService {
     }
 
     public List<User> findUsersByFirstNameAndLastNameAndUserName(String firstName, String lastName, String userName) {
-      return  userRepository.findAll().stream()
-                                      .filter(u ->
-                                      firstName != null && firstName.equalsIgnoreCase(u.getFirstName()) ||
-                                      lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
-                                      userName != null && userName.equalsIgnoreCase(u.getUserName()))
-                                      .collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .filter(u ->
+                        firstName != null && firstName.equalsIgnoreCase(u.getFirstName()) ||
+                                lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
+                                userName != null && userName.equalsIgnoreCase(u.getUserName()))
+                .collect(Collectors.toList());
 
     }
 
     public List<User> findAllUsersAtTeamByTeamName(String teamName) {
         Optional<Team> team = teamRepository.findByName(teamName);
 
-       if(team.isPresent()) {
+        if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
         throw new InvalidInputException("No team with teamname: " + teamName);

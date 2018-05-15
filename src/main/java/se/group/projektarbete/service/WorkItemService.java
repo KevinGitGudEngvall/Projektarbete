@@ -26,14 +26,6 @@ public final class WorkItemService {
         this.userRepository = userRepository;
     }
 
-    public boolean removeWorkItem(Long id) {
-        if (workItemRepository.existsById(id)) {
-            workItemRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
-
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
             issue.setWorkItem(w);
@@ -43,28 +35,53 @@ public final class WorkItemService {
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(workItem);
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
+    public Boolean changeStatus(Long id, String status ) {
 
+        if (workItemRepository.findById(id).isPresent()) {
+            Optional<WorkItem> workItems = workItemRepository.findById(id);
+            validate(status);
+            workItems.get().setStatus(Status.valueOf(status));
+            workItemRepository.save(workItems.get());
+            return true;
+        }
+        return false;
+    }
+
+    public Optional<WorkItem> getItem(Long id) {
+        return workItemRepository.findById(id);
+    }
+
+    public List<WorkItem> getAllItems() {
+        return workItemRepository.findAll();
+    }
+
+    public boolean deleteWorkItem(Long id) {
+        if(workItemRepository.existsById(id)){
+            workItemRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public void validate (String status) {
+        if(!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE") ){
+            throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
+        }
+    }
 
     public void addWorkItemByUserId(Long workItemId, Long userId) {
-        List<WorkItem> workItems = workItemRepository.findAll().stream().filter(w -> w.getUser().getId().equals(userId))
-                .collect(Collectors.toList());
-
         Optional<User> user = userRepository.findById(userId);
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
-
         if (!user.isPresent()) {
             throw new InvalidInputException("No User with that id");
 
         } else if (!workItem.isPresent()) {
             throw new InvalidInputException("No Workitem with that id");
 
-        } else if(workItems.stream().anyMatch(w -> w.getId().equals(workItemId))) {
-            throw new InvalidInputException("That workitem is alerady assigned to that user.");
-
-        } else if (workItems.size() > 4){
+        } else if (user.get().getWorkItems().size() > 4){
             throw new InvalidInputException("To many Workitems for that user");
 
         } else if(!user.get().getActive()) {
@@ -75,21 +92,18 @@ public final class WorkItemService {
         workItemRepository.save(workItem.get());
     }
 
-
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
         if(users.isEmpty()){
-            throw new InvalidInputException("No workitems for that teamid.");
+            throw new InvalidInputException("No users for that teamid.");
         }
         return workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(users.listIterator().next().getId()))
+                .filter(w -> users.stream().anyMatch(u -> u.getWorkItems().stream().anyMatch(wu -> wu.getId().equals(w.getId()))))
                 .collect(Collectors.toList());
     }
 
     public List<WorkItem> findAllWorkItemsByUserId(Long userId){
-        List<WorkItem> workItems = workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(userId))
-                .collect(Collectors.toList());
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
         if(workItems.isEmpty()) {
             throw new InvalidInputException("No workitems for that userid.");
         }
@@ -106,7 +120,11 @@ public final class WorkItemService {
         return workItems;
     }
 
-    //public List<WorkItem> getAllWorkItemsWithIssues(){}
+    public List<WorkItem> getAllWorkItemsWithIssues() {
+        return workItemRepository.findAll().stream()
+                .filter(w -> issueRepository.findAll().stream()
+                        .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
+    }
 }
 
 

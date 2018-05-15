@@ -55,9 +55,9 @@ public final class UserResource {
 
     @GET
     public List<User> getUsersByFirstNameAndLastNameAndUserName
-                                            (@QueryParam("firstName") String firstName,
-                                             @QueryParam("lastName") String lastName,
-                                             @QueryParam("userName") String userName) {
+            (@QueryParam("firstName") String firstName,
+             @QueryParam("lastName") String lastName,
+             @QueryParam("userName") String userName) {
         return userService.findUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
     }
 

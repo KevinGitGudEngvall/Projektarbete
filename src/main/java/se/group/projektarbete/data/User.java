@@ -25,7 +25,7 @@ public final class User {
     private Boolean active = true;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST}, mappedBy = "user")
     private List<WorkItem> workItems;
 
     @ManyToOne
@@ -39,7 +39,7 @@ public final class User {
         this.lastName = lastName;
         this.userName = userName;
         this.userNumber = userNumber;
-        this.workItems = new ArrayList<>();
+        workItems = new ArrayList<>();
     }
 
     public Long getId() {
@@ -66,24 +66,12 @@ public final class User {
         return active;
     }
 
-    public List<WorkItem> getWorkItems() {
-        return this.workItems;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
     public void setActive(Boolean active) {
         this.active = active;
     }
 
-    public void updateUser(User user) {
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.userName = user.getUserName();
-        this.userNumber = user.getUserNumber();
-        this.active = user.getActive();
+    public List<WorkItem> getWorkItems() {
+        return this.workItems;
     }
 
     public void setWorkItems(WorkItem workItem) {
@@ -91,14 +79,25 @@ public final class User {
         workItem.setUser(this);
     }
 
-    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItems.get(i).setStatus(Status.UNSTARTED);
-        }
+    public Team getTeam() {
+        return team;
     }
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void updateUser(User user) {
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.userName = user.getUserName();
+        this.active = user.getActive();
+    }
+
+    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
+        for (int i = 0; i < workItems.size(); i++) {
+            workItems.get(i).setStatus(Status.UNSTARTED);
+        }
     }
 
 

@@ -8,7 +8,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.OK;
 
 @Component
 @Path("issues")
@@ -23,14 +24,15 @@ public final class IssueResource {
         this.issueService = issueService;
     }
 
-    @POST
-    public Response createIssue (Issue issue){
-        issueService.createIssue(issue);
-        return Response.status(CREATED).build();
-
+    @PUT
+    @Path("{id}")
+    public Response updateIssue(@PathParam("id") Long id, Issue issue) {
+        if (issueService.updateIssue(id, issue)) {
+            return Response.status(OK).build();
         }
-
-
-
+        return Response.status(NOT_FOUND).build();
     }
+
+
+}
 
