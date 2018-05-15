@@ -127,6 +127,7 @@ public final class WorkItemService {
                 .filter(w -> issueRepository.findAll().stream().anyMatch(i -> i.getWorkItem().getId().equals(w.getId())))
                 .collect(Collectors.toList());
     }
+    
 }
 
 
