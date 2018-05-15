@@ -82,7 +82,6 @@ public final class User {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.userName = user.getUserName();
-        this.userNumber = user.getUserNumber();
         this.active = user.getActive();
     }
 
