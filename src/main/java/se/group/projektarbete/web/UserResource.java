@@ -31,9 +31,26 @@ public final class UserResource {
     @POST
     public Response createUser(User user) {
         User createdUser = userService.createUser(user);
-
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(createdUser.getUserNumber().toString())).build();
+    }
+
+    @PUT
+    @Path("{userNumber}/inactivate")
+    public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
+        if (userService.inactivateUser(userNumber)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
+    }
+
+    @PUT
+    @Path("{userNumber}")
+    public Response updateUserByUserNumber(@PathParam("userNumber") Long userNumber, User user) {
+        if (userService.updateUser(userNumber, user)) {
+            return Response.status(OK).build();
+        }
+        return Response.status(NOT_FOUND).build();
     }
 
     @GET
@@ -49,8 +66,6 @@ public final class UserResource {
     @Path("team/{teamName}")
     public List<User> getAllUsersFromSpecificTeam(@PathParam("teamName") String teamName) {
         return userService.findAllUsersAtTeamByTeamName(teamName);
-
-
     }
 
     @GET
@@ -60,28 +75,4 @@ public final class UserResource {
              @QueryParam("userName") String userName) {
         return userService.findUsersByFirstNameAndLastNameAndUserName(firstName, lastName, userName);
     }
-
-    @PUT
-    @Path("{userNumber}/inactivate")
-    public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
-        if (userService.inactivateUser(userNumber)) {
-            return Response.status(OK).build();
-        }
-        return Response.status(NOT_FOUND).build();
-
-    }
-
-    @PUT
-    @Path("{userNumber}")
-    public Response updateUserByUserNumber(@PathParam("userNumber") Long userNumber, User user) {
-        if (userService.updateUser(userNumber, user)) {
-            return Response.status(OK).build();
-        }
-        return Response.status(NOT_FOUND).build();
-    }
-
-
 }
-
-
-

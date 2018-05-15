@@ -54,11 +54,6 @@ public final class TeamResource {
         return Response.status(NOT_FOUND).build();
     }
 
-    @GET
-    public List<Team> getAllTeams() {
-        return teamService.getAllTeams();
-    }
-
     @PUT
     @Path("{id}/users/{userNumber}")
     public Response setUserToTeam(@PathParam("id") Long id,
@@ -67,5 +62,8 @@ public final class TeamResource {
         return Response.status(OK).build();
     }
 
-
+    @GET
+    public List<Team> getAllTeams() {
+        return teamService.getAllTeams();
+    }
 }

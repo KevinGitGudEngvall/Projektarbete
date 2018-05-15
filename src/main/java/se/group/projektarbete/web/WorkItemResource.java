@@ -4,6 +4,7 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.WorkItemService;
 
@@ -41,6 +42,13 @@ public class WorkItemResource {
 
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(createdWorkItem.getId().toString())).build();
+    }
+
+    @POST
+    @Path("{id}/issues")
+    public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
+        workItemService.addIssueToWorkItem(id, issue);
+        return Response.status(CREATED).build();
     }
 
     @PUT
@@ -90,28 +98,22 @@ public class WorkItemResource {
         return workItemService.findAllWorkItemsByDescription(value);
     }
 
-    @POST
-    @Path("{id}/issues")
-    public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
+    @GET
+    @Path("issues")
+    public List<WorkItem> getAllWorkItemsWithIssues() {
+        return workItemService.getAllWorkItemsWithIssues();
+    }
 
-        workItemService.addIssueToWorkItem(id, issue);
-        return Response.status(CREATED).build();
+    @GET
+    @Path("stat/{statusValue}")
+    public List<WorkItem> getAllWorkItemsByStatus(@PathParam("statusValue") Status statValue) {
+        return workItemService.findAllWorkItemsByStatus(statValue);
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteWorkItem(@PathParam("id") Long id) {
-
         workItemService.deleteWorkItem(id);
         return Response.status(NO_CONTENT).build();
     }
-
-    @GET
-    @Path("issues")
-    public List<WorkItem> getAllWorkItemsWithIssues(){
-        return workItemService.getAllWorkItemsWithIssues();
-    }
-
 }
-
-

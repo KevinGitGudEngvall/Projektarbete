@@ -20,11 +20,6 @@ public final class IssueService {
         this.workItemRepository = workItemRepository;
     }
 
-    public Issue createIssue(Issue issue) {
-        return issueRepository.save(issue);
-
-    }
-
     public boolean updateIssue(Long id, Issue issue) {
         if (issueRepository.findById(id).isPresent()) {
             Optional<Issue> result = issueRepository.findById(id);
@@ -34,7 +29,4 @@ public final class IssueService {
         }
         return false;
     }
-
 }
-
-

@@ -35,7 +35,7 @@ public final class TeamService {
         return false;
     }
 
-    public Boolean inactivateTeam(Long id) {
+    public boolean inactivateTeam(Long id) {
         if (teamRepository.findById(id).isPresent()) {
             Optional<Team> teams = teamRepository.findById(id);
             teams.get().setActive(false);
@@ -43,7 +43,6 @@ public final class TeamService {
             return true;
         }
         return false;
-
     }
 
     public List<Team> getAllTeams() {
@@ -52,7 +51,6 @@ public final class TeamService {
     }
 
     public void setUserToTeam(Long id, Long userNumber) {
-
         Optional<Team> team = teamRepository.findById(id);
         Optional<User> user = userRepository.findUserByuserNumber(userNumber);
 
@@ -68,7 +66,6 @@ public final class TeamService {
             });
         } else
             throw new InvalidInputException("User is already assigned to a team");
-
     }
 
     private void validateTeam(Team team) {

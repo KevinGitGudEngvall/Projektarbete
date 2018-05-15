@@ -32,7 +32,4 @@ public final class IssueResource {
         }
         return Response.status(NOT_FOUND).build();
     }
-
-
 }
-

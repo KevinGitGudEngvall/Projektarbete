@@ -9,6 +9,7 @@ import java.util.Collections;
 
 @Provider
 public class BadWorkitemMapper implements ExceptionMapper<BadWorkitemException> {
+
     @Override
     public Response toResponse(BadWorkitemException e) {
         return Response.status(Response.Status.BAD_REQUEST)

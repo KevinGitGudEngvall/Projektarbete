@@ -11,5 +11,4 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     List<Team> findAll();
 
     Optional<Team> findByName(String name);
-
 }
