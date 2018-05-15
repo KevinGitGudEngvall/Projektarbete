@@ -42,7 +42,7 @@ public final class WorkItemService {
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
-    public boolean changeStatus(Long id, String status ) {
+    public Boolean changeStatus(Long id, String status ) {
 
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
@@ -136,8 +136,13 @@ public final class WorkItemService {
         }
     }
 
-
-
+    public List<WorkItem> findAllWorkItemsByStatus(Status status) {
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
+        if(workItems.isEmpty()) {
+            throw new InvalidInputException("No workitems with that status");
+        }
+        return workItems;
+    }
 
 }
 
