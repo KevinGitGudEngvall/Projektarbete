@@ -38,7 +38,7 @@ public final class WorkItemService {
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
-    public Boolean changeStatus(Long id, String status ) {
+    public boolean changeStatus(Long id, String status ) {
 
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
@@ -127,6 +127,10 @@ public final class WorkItemService {
                 .filter(w -> issueRepository.findAll().stream().anyMatch(i -> i.getWorkItem().getId().equals(w.getId())))
                 .collect(Collectors.toList());
     }
+
+
+
+
 }
 
 
