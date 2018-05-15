@@ -125,7 +125,16 @@ public final class WorkItemService {
                 .filter(w -> issueRepository.findAll().stream()
                         .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
     }
-    
+
+
+    public List<WorkItem> findAllWorkItemsByStatus(Status status) {
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
+        if(workItems.isEmpty()) {
+            throw new InvalidInputException("No workitems with that status");
+        }
+        return workItems;
+    }
+
 }
 
 
