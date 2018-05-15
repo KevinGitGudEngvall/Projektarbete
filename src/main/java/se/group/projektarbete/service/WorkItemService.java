@@ -35,8 +35,7 @@ public final class WorkItemService {
 
     public WorkItem createWorkItem(WorkItem workItem) {
         // Exception hanterare för att se till att ett workitem har all nödvändig input
-        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription(),
-                workItem.getStatus(), workItem.getUser()));
+        return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
     public Boolean changeStatus(Long id, String status ) {
@@ -82,9 +81,6 @@ public final class WorkItemService {
         } else if (!workItem.isPresent()) {
             throw new InvalidInputException("No Workitem with that id");
 
-        } else if(user.get().getId().equals(workItem.get().getUser().getId())) {
-            throw new InvalidInputException("That workitem is alerady assigned to that user.");
-
         } else if (user.get().getWorkItems().size() > 4){
             throw new InvalidInputException("To many Workitems for that user");
 
@@ -96,21 +92,18 @@ public final class WorkItemService {
         workItemRepository.save(workItem.get());
     }
 
-
     public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
         if(users.isEmpty()){
-            throw new InvalidInputException("No workitems for that teamid.");
+            throw new InvalidInputException("No users for that teamid.");
         }
         return workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(users.listIterator().next().getId()))
+                .filter(w -> users.stream().anyMatch(u -> u.getWorkItems().stream().anyMatch(wu -> wu.getId().equals(w.getId()))))
                 .collect(Collectors.toList());
     }
 
     public List<WorkItem> findAllWorkItemsByUserId(Long userId){
-        List<WorkItem> workItems = workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(userId))
-                .collect(Collectors.toList());
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
         if(workItems.isEmpty()) {
             throw new InvalidInputException("No workitems for that userid.");
         }
@@ -129,7 +122,11 @@ public final class WorkItemService {
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemRepository.findAll().stream()
-                .filter(w -> issueRepository.findAll().stream().anyMatch(i -> i.getWorkItem().getId().equals(w.getId())))
-                .collect(Collectors.toList());
+                .filter(w -> issueRepository.findAll().stream()
+                        .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
     }
 }
+
+
+
+
