@@ -29,6 +29,7 @@ public final class WorkItemService {
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
             validateWorkItem(id);
+            w.setStatus(Status.UNSTARTED);
             issue.setWorkItem(w);
             w.setIssue(issue);
             issueRepository.save(issue);
