@@ -134,6 +134,9 @@ public final class WorkItemService {
         if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
             throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
         }
+        if(!workItemRepository.findById(id).isPresent()){
+            throw new InvalidInputException("No workitem was found with that Id..");
+        }
     }
 
     public List<WorkItem> findAllWorkItemsByStatus(Status status) {
@@ -144,7 +147,7 @@ public final class WorkItemService {
         return workItems;
     }
 
-}
+ }
 
 
 
