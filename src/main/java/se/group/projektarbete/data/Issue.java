@@ -1,7 +1,5 @@
 package se.group.projektarbete.data;
 
-import se.group.projektarbete.data.workitemenum.Status;
-
 import javax.persistence.*;
 
 @Entity
@@ -16,14 +14,11 @@ public final class Issue {
     @OneToOne
     private WorkItem workItem;
 
-    protected Issue(){}
-
-    public Issue(String description, WorkItem workItem) {
-        this.description = description;
-        this.workItem = workItem;
+    protected Issue() {
     }
-    public void setWorkItem (WorkItem workItem){
-        this.workItem = workItem;
+
+    public Issue(String description) {
+        this.description = description;
     }
 
     public Long getId() {
@@ -34,11 +29,15 @@ public final class Issue {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public WorkItem getWorkItem() {
         return workItem;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setWorkItem(WorkItem workItem) {
+        this.workItem = workItem;
     }
 }
