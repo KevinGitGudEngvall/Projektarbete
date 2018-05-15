@@ -66,6 +66,18 @@ public final class User {
         return active;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setActive(Boolean active) {
         this.active = active;
     }
@@ -87,12 +99,6 @@ public final class User {
         this.team = team;
     }
 
-    public void updateUser(User user) {
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.userName = user.getUserName();
-        this.active = user.getActive();
-    }
 
     public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         for (int i = 0; i < workItems.size(); i++) {

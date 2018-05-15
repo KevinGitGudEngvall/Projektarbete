@@ -1,4 +1,4 @@
-package se.group.projektarbete.service;
+package se.group.projektarbete.service.exceptions;
 
 import javax.ws.rs.ext.Provider;
 

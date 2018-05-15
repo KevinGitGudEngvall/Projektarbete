@@ -7,6 +7,7 @@ import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.exceptions.InvalidInputException;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public final class UserService {
         validateUser(user);
         if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
-            users.get().updateUser(user);
+            updateUserInfo(users.get(), user);
             userRepository.save(users.get());
             return true;
         }
@@ -99,5 +100,11 @@ public final class UserService {
         if (user.getUserName().length() < 10) {
             throw new InvalidInputException("Username cannot be shorter than 10 characters");
         }
+    }
+    private void updateUserInfo(User user, User newInfo) {
+        user.setFirstName(newInfo.getFirstName());
+        user.setLastName(newInfo.getLastName());
+        user.setUserName(newInfo.getUserName());
+        user.setActive(newInfo.getActive());
     }
 }

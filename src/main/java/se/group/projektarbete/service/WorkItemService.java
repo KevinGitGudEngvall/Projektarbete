@@ -8,6 +8,7 @@ import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.exceptions.InvalidInputException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,8 @@ public final class WorkItemService {
     }
 
     public void addIssueToWorkItem(Long id, Issue issue) {
+        validateWorkItem(id);
         workItemRepository.findById(id).ifPresent(w -> {
-            validateWorkItem(id);
             w.setStatus(Status.UNSTARTED);
             issue.setWorkItem(w);
             w.setIssue(issue);
@@ -42,8 +43,7 @@ public final class WorkItemService {
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
-    public boolean changeStatus(Long id, String status ) {
-
+    public boolean changeStatus(Long id, String status) {
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
             validate(status);
@@ -131,12 +131,13 @@ public final class WorkItemService {
     }
 
     private void validateWorkItem(Long id){
-        if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
-            throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
-        }
         if(!workItemRepository.findById(id).isPresent()){
             throw new InvalidInputException("No workitem was found with that Id..");
         }
+        if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
+            throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
+        }
+
     }
 
 

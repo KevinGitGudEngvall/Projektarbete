@@ -1,6 +1,6 @@
 package se.group.projektarbete.web.mapper;
 
-import se.group.projektarbete.service.BadUserException;
+import se.group.projektarbete.service.exceptions.BadUserException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
