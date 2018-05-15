@@ -28,8 +28,11 @@ public final class WorkItemService {
 
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
+            validateWorkItem(id);
             issue.setWorkItem(w);
+            w.setIssue(issue);
             issueRepository.save(issue);
+            workItemRepository.save(w);
         });
     }
 
@@ -124,6 +127,12 @@ public final class WorkItemService {
         return workItemRepository.findAll().stream()
                 .filter(w -> issueRepository.findAll().stream()
                         .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
+    }
+
+    private void validateWorkItem(Long id){
+        if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
+            throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
+        }
     }
 }
 
