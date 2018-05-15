@@ -35,11 +35,10 @@ public final class WorkItem {
     }
 
 
-    public WorkItem(String name, String description, Status status, User user) {
+    public WorkItem(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
-        this.user = user;
+        status = Status.UNSTARTED;
     }
 
     public Long getId() {

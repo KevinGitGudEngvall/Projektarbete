@@ -17,9 +17,8 @@ public final class Issue {
     protected Issue() {
     }
 
-    public Issue(String description, WorkItem workItem) {
+    public Issue(String description) {
         this.description = description;
-        this.workItem = workItem;
     }
 
     public Long getId() {
