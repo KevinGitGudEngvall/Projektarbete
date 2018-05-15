@@ -28,8 +28,12 @@ public final class WorkItemService {
 
     public void addIssueToWorkItem(Long id, Issue issue) {
         workItemRepository.findById(id).ifPresent(w -> {
+            validateWorkItem(id);
+            w.setStatus(Status.UNSTARTED);
             issue.setWorkItem(w);
+            w.setIssue(issue);
             issueRepository.save(issue);
+            workItemRepository.save(w);
         });
     }
 
@@ -98,14 +102,12 @@ public final class WorkItemService {
             throw new InvalidInputException("No users for that teamid.");
         }
         return workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(users.stream().anyMatch(i -> i.getId().equals(w.getId()))))
+                .filter(w -> users.stream().anyMatch(u -> u.getWorkItems().stream().anyMatch(wu -> wu.getId().equals(w.getId()))))
                 .collect(Collectors.toList());
     }
 
     public List<WorkItem> findAllWorkItemsByUserId(Long userId){
-        List<WorkItem> workItems = workItemRepository.findAll().stream()
-                .filter(w -> w.getUser().getId().equals(userId))
-                .collect(Collectors.toList());
+        List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
         if(workItems.isEmpty()) {
             throw new InvalidInputException("No workitems for that userid.");
         }
@@ -124,8 +126,14 @@ public final class WorkItemService {
 
     public List<WorkItem> getAllWorkItemsWithIssues() {
         return workItemRepository.findAll().stream()
-                .filter(w -> issueRepository.findAll().stream().anyMatch(i -> i.getWorkItem().getId().equals(w.getId())))
-                .collect(Collectors.toList());
+                .filter(w -> issueRepository.findAll().stream()
+                        .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
+    }
+
+    private void validateWorkItem(Long id){
+        if(!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")){
+            throw new InvalidInputException("Cant add an issue to a workitem that is not DONE");
+        }
     }
 
 
