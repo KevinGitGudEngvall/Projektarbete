@@ -5,7 +5,8 @@ import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
-import se.group.projektarbete.service.exceptions.InvalidInputException;
+import se.group.projektarbete.service.exceptions.BadTeamException;
+import se.group.projektarbete.service.exceptions.BadUserException;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,9 +56,9 @@ public final class TeamService {
         Optional<User> user = userRepository.findUserByuserNumber(userNumber);
 
         if (!team.isPresent()) {
-            throw new InvalidInputException("No team matching that ID was found");
+            throw new BadTeamException("No team matching that ID was found");
         } else if (!user.isPresent()) {
-            throw new InvalidInputException("No user matching that ID was found");
+            throw new BadUserException("No user matching that ID was found");
         } else if (user.get().getTeam() == null) {
             validateTeam(team.get());
             user.ifPresent(u -> {
@@ -65,12 +66,12 @@ public final class TeamService {
                 userRepository.save(user.get());
             });
         } else
-            throw new InvalidInputException("User is already assigned to a team");
+            throw new BadUserException("User is already assigned to a team");
     }
 
     private void validateTeam(Team team) {
         if (team.getUsers().size() > 9) {
-            throw new InvalidInputException("Team cannot have more than 10 users");
+            throw new BadTeamException("Team cannot have more than 10 users");
         }
     }
 }

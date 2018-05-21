@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 
 @Component
@@ -76,8 +77,11 @@ public class WorkItemResource {
 
     @GET
     @Path("{id}")
-    public Optional<WorkItem> getWorkItem(@PathParam("id") Long id) {
-        return workItemService.getItem(id);
+    public Response getWorkItem(@PathParam("id") Long id) {
+        return  workItemService.getItem(id)
+                .map(Response::ok)
+                .orElse(Response.status(NOT_FOUND))
+                .build();
     }
 
     @GET

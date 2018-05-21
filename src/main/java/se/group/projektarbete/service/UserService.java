@@ -7,7 +7,8 @@ import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
-import se.group.projektarbete.service.exceptions.InvalidInputException;
+import se.group.projektarbete.service.exceptions.BadTeamException;
+import se.group.projektarbete.service.exceptions.BadUserException;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +81,7 @@ public final class UserService {
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new InvalidInputException("No team with teamname: " + teamName);
+        throw new BadTeamException("No team with teamname: " + teamName);
     }
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
@@ -91,14 +92,14 @@ public final class UserService {
     }
 
     private void saveWorkItems(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItemRepository.save(workItems.get(i));
+        for (WorkItem workItem : workItems) {
+            workItemRepository.save(workItem);
         }
     }
 
     private void validateUser(User user) {
         if (user.getUserName().length() < 10) {
-            throw new InvalidInputException("Username cannot be shorter than 10 characters");
+            throw new BadUserException("Username cannot be shorter than 10 characters");
         }
     }
     private void updateUserInfo(User user, User newInfo) {
