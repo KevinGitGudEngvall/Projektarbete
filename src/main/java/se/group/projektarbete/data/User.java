@@ -1,7 +1,5 @@
 package se.group.projektarbete.data;
 
-import se.group.projektarbete.data.workitemenum.Status;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,13 +95,6 @@ public final class User {
 
     public void setTeam(Team team) {
         this.team = team;
-    }
-
-
-    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItems.get(i).setStatus(Status.UNSTARTED);
-        }
     }
 
 
