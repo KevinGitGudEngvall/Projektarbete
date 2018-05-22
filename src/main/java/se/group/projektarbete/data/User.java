@@ -1,7 +1,5 @@
 package se.group.projektarbete.data;
 
-import se.group.projektarbete.data.workitemenum.Status;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +12,9 @@ public final class User {
     private Long id;
 
     @Column(nullable = false)
+    private final Long userNumber;
+
+    @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
@@ -21,9 +22,6 @@ public final class User {
 
     @Column(nullable = false)
     private String userName;
-
-    @Column(nullable = false)
-    private final Long userNumber;
 
     @Column(nullable = false)
     private Boolean active = true;
@@ -54,12 +52,24 @@ public final class User {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getUserNumber() {
@@ -68,18 +78,6 @@ public final class User {
 
     public Boolean getActive() {
         return active;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public void setActive(Boolean active) {

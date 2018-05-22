@@ -56,7 +56,7 @@ public final class UserResource {
     @GET
     @Path("{userNumber}")
     public Response getUserByUserNumber(@PathParam("userNumber") Long userNumber) {
-        return userService.getUserByUsernumber(userNumber)
+        return userService.getUserByUserNumber(userNumber)
                 .map(Response::ok)
                 .orElse(Response.status(NOT_FOUND))
                 .build();
@@ -65,7 +65,7 @@ public final class UserResource {
     @GET
     @Path("team/{teamName}")
     public List<User> getAllUsersFromSpecificTeam(@PathParam("teamName") String teamName) {
-        return userService.findAllUsersAtTeamByTeamName(teamName);
+        return userService.getAllUsersInTeamByTeamName(teamName);
     }
 
     @GET

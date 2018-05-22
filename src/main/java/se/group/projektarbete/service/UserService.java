@@ -40,7 +40,7 @@ public final class UserService {
                 userNumbers.incrementAndGet()));
     }
 
-    public Optional<User> getUserByUsernumber(Long userNumber) {
+    public Optional<User> getUserByUserNumber(Long userNumber) {
         return userRepository.findUserByuserNumber(userNumber);
     }
 
@@ -78,7 +78,7 @@ public final class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> findAllUsersAtTeamByTeamName(String teamName) {
+    public List<User> getAllUsersInTeamByTeamName(String teamName) {
         Optional<Team> team = teamRepository.findByName(teamName);
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
@@ -102,6 +102,9 @@ public final class UserService {
     }
 
     private void validateUser(User user) {
+        if (user.getFirstName() == null || user.getLastName() == null || user.getUserName() == null) {
+            throw new BadUserException("All required values for the user has not been assigned");
+        }
         if (user.getUserName().length() < 10) {
             throw new BadUserException("Username cannot be shorter than 10 characters");
         }
