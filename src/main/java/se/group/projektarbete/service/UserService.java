@@ -7,6 +7,7 @@ import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.exceptions.BadUserException;
 import se.group.projektarbete.service.exceptions.InvalidInputException;
 
 import java.util.List;
@@ -30,6 +31,9 @@ public final class UserService {
     }
 
     public User createUser(User user) {
+        if (user.getFirstName() == null || user.getLastName() == null || user.getUserName() == null) {
+            throw new BadUserException("All required values for the user has not been assigned");
+        }
         validateUser(user);
         return userRepository.save(new User(
                 user.getFirstName(),

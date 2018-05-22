@@ -5,6 +5,7 @@ import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
+import se.group.projektarbete.service.exceptions.BadIssueException;
 import se.group.projektarbete.service.exceptions.InvalidInputException;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public final class TeamService {
     }
 
     public Team createTeam(Team team) {
+        if (team.getName() == null || team.getActive() == null) {
+            throw new InvalidInputException("All required values for the team has not been assigned");
+        }
         return teamRepository.save(team);
     }
 

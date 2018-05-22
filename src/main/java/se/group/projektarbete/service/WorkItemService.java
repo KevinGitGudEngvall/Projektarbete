@@ -12,6 +12,7 @@ import se.group.projektarbete.service.exceptions.BadIssueException;
 import se.group.projektarbete.service.exceptions.BadWorkitemException;
 import se.group.projektarbete.service.exceptions.InvalidInputException;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,9 @@ public final class WorkItemService {
     }
 
     public WorkItem createWorkItem(WorkItem workItem) {
+        if (workItem.getName() == null || workItem.getDescription() == null) {
+           throw new BadWorkitemException("All required values for the workItem has not been assigned");
+        }
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
