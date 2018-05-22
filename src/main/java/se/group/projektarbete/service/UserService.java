@@ -9,7 +9,6 @@ import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 import se.group.projektarbete.service.exceptions.BadUserException;
-import se.group.projektarbete.service.exceptions.InvalidInputException;
 import se.group.projektarbete.service.exceptions.BadTeamException;
 import se.group.projektarbete.service.exceptions.BadUserException;
 
