@@ -8,7 +8,6 @@ import se.group.projektarbete.repository.WorkItemRepository;
 
 import java.util.Optional;
 
-
 @Service
 public final class IssueService {
 

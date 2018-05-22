@@ -1,6 +1,5 @@
 package se.group.projektarbete.data;
 
-
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
@@ -14,10 +13,10 @@ public final class WorkItem {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private final String name;
 
     @Column(nullable = false)
-    private String description;
+    private final String description;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -32,6 +31,8 @@ public final class WorkItem {
     private Issue issue;
 
     protected WorkItem() {
+        this.name = null;
+        this.description = null;
     }
 
     public WorkItem(String name, String description) {
@@ -66,10 +67,6 @@ public final class WorkItem {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Issue getIssue() {
-        return issue;
     }
 
     public void setIssue(Issue issue) {

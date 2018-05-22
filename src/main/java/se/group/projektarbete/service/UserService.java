@@ -20,7 +20,7 @@ public final class UserService {
     private final UserRepository userRepository;
     private final WorkItemRepository workItemRepository;
     private final TeamRepository teamRepository;
-    private AtomicLong userNumbers;
+    private final AtomicLong userNumbers;
 
     public UserService(UserRepository userRepository, WorkItemRepository workItemRepository, TeamRepository teamRepository) {
         this.userRepository = userRepository;
@@ -44,9 +44,12 @@ public final class UserService {
 
     public boolean updateUser(Long userNumber, User user) {
         validateUser(user);
-        if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
-            Optional<User> users = userRepository.findUserByuserNumber(userNumber);
-            updateUserInfo(users.get(), user);
+        Optional<User> users = userRepository.findUserByuserNumber(userNumber);
+        if (users.isPresent()) {
+            users.get().setFirstName(user.getFirstName());
+            users.get().setLastName(user.getLastName());
+            users.get().setUserName(user.getUserName());
+            users.get().setActive(user.getActive());
             userRepository.save(users.get());
             return true;
         }
@@ -71,12 +74,10 @@ public final class UserService {
                                 lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
                                 userName != null && userName.equalsIgnoreCase(u.getUserName()))
                 .collect(Collectors.toList());
-
     }
 
     public List<User> findAllUsersAtTeamByTeamName(String teamName) {
         Optional<Team> team = teamRepository.findByName(teamName);
-
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
@@ -91,8 +92,8 @@ public final class UserService {
     }
 
     private void saveWorkItems(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItemRepository.save(workItems.get(i));
+        for (WorkItem workItem : workItems) {
+            workItemRepository.save(workItem);
         }
     }
 
@@ -100,11 +101,5 @@ public final class UserService {
         if (user.getUserName().length() < 10) {
             throw new InvalidInputException("Username cannot be shorter than 10 characters");
         }
-    }
-    private void updateUserInfo(User user, User newInfo) {
-        user.setFirstName(newInfo.getFirstName());
-        user.setLastName(newInfo.getLastName());
-        user.setUserName(newInfo.getUserName());
-        user.setActive(newInfo.getActive());
     }
 }

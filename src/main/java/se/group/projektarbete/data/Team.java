@@ -10,15 +10,19 @@ public final class Team {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     List<User> users;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private Boolean active;
 
     protected Team() {
+
     }
 
     public Team(String name, Boolean active) {

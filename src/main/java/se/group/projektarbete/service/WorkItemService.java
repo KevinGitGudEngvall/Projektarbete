@@ -8,6 +8,9 @@ import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.exceptions.BadIssueException;
+import se.group.projektarbete.service.exceptions.BadWorkitemException;
+import se.group.projektarbete.service.exceptions.InvalidInputException;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,15 +76,14 @@ public final class WorkItemService {
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
 
         if (!user.isPresent()) {
-            throw new InvalidInputException("No User with that id");
+            throw new InvalidInputException("No user with that id.");
         } else if (!workItem.isPresent()) {
-            throw new InvalidInputException("No Workitem with that id");
+            throw new InvalidInputException("No Workitem with that id.");
         } else if (user.get().getWorkItems().size() > 4) {
-            throw new InvalidInputException("To many Workitems for that user");
+            throw new InvalidInputException("That user can't have more then 5 workitems.");
         } else if (!user.get().getActive()) {
-            throw new InvalidInputException("user is not active");
+            throw new InvalidInputException("user is not active.");
         }
-
         user.get().setWorkItems(workItem.get());
         workItemRepository.save(workItem.get());
     }

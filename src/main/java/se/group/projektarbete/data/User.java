@@ -23,11 +23,10 @@ public final class User {
     private String userName;
 
     @Column(nullable = false)
-    private Long userNumber;
+    private final Long userNumber;
 
     @Column(nullable = false)
     private Boolean active = true;
-
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST}, mappedBy = "user")
     private List<WorkItem> workItems;
@@ -36,6 +35,7 @@ public final class User {
     private Team team;
 
     protected User() {
+        this.userNumber = null;
     }
 
     public User(String firstName, String lastName, String userName, Long userNumber) {
@@ -102,7 +102,6 @@ public final class User {
     public void setTeam(Team team) {
         this.team = team;
     }
-
 
     public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         for (int i = 0; i < workItems.size(); i++) {

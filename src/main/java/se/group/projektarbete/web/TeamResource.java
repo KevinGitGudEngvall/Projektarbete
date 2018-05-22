@@ -13,7 +13,6 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.*;
 
-
 @Component
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)

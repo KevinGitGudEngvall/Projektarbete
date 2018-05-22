@@ -53,7 +53,6 @@ public final class TeamService {
     public void setUserToTeam(Long id, Long userNumber) {
         Optional<Team> team = teamRepository.findById(id);
         Optional<User> user = userRepository.findUserByuserNumber(userNumber);
-
         if (!team.isPresent()) {
             throw new InvalidInputException("No team matching that ID was found");
         } else if (!user.isPresent()) {
