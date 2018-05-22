@@ -10,7 +10,6 @@ import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 import se.group.projektarbete.service.exceptions.*;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,7 +85,6 @@ public final class WorkItemService {
         } else if (!user.get().getActive()) {
             throw new BadUserException("user is not active");
         }
-
         user.get().setWorkItems(workItem.get());
         workItemRepository.save(workItem.get());
     }

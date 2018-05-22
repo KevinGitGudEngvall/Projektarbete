@@ -5,7 +5,6 @@ import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
-import se.group.projektarbete.service.exceptions.BadIssueException;
 import se.group.projektarbete.service.exceptions.BadTeamException;
 
 import java.util.List;
