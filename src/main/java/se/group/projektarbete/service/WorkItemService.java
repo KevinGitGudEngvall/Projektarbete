@@ -8,9 +8,11 @@ import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
-import se.group.projektarbete.service.exceptions.*;
+import se.group.projektarbete.service.exceptions.BadIssueException;
+import se.group.projektarbete.service.exceptions.BadTeamException;
+import se.group.projektarbete.service.exceptions.BadUserException;
+import se.group.projektarbete.service.exceptions.BadWorkitemException;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,12 +43,12 @@ public final class WorkItemService {
 
     public WorkItem createWorkItem(WorkItem workItem) {
         if (workItem.getName() == null || workItem.getDescription() == null) {
-           throw new BadWorkitemException("All required values for the workItem has not been assigned");
+            throw new BadWorkitemException("All required values for the workItem has not been assigned");
         }
         return workItemRepository.save(new WorkItem(workItem.getName(), workItem.getDescription()));
     }
 
-    public boolean changeStatus(Long id, String status) {
+    public boolean setStatusOnWorkItem(Long id, String status) {
         if (workItemRepository.findById(id).isPresent()) {
             Optional<WorkItem> workItems = workItemRepository.findById(id);
             validate(status);
@@ -57,11 +59,11 @@ public final class WorkItemService {
         return false;
     }
 
-    public Optional<WorkItem> getItem(Long id) {
+    public Optional<WorkItem> getWorkItem(Long id) {
         return workItemRepository.findById(id);
     }
 
-    public List<WorkItem> getAllItems() {
+    public List<WorkItem> getAllWorkItems() {
         return workItemRepository.findAll();
     }
 
@@ -76,7 +78,6 @@ public final class WorkItemService {
     public void addWorkItemByUserId(Long workItemId, Long userId) {
         Optional<User> user = userRepository.findById(userId);
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
-
         if (!user.isPresent()) {
             throw new BadUserException("No User with that id");
         } else if (!workItem.isPresent()) {
@@ -84,16 +85,14 @@ public final class WorkItemService {
         } else if (user.get().getWorkItems().size() > 4) {
             throw new BadWorkitemException("To many Workitems for that user");
         } else if (!user.get().getActive()) {
-            throw new BadUserException("user is not active");
+            throw new BadUserException("User is not active");
         }
-
         user.get().setWorkItems(workItem.get());
         workItemRepository.save(workItem.get());
     }
 
-    public List<WorkItem> findAllWorkItemsByTeamId(Long teamId) {
+    public List<WorkItem> getAllWorkItemsByTeamId(Long teamId) {
         List<User> users = userRepository.findUsersByTeamId(teamId);
-
         if (users.isEmpty()) {
             throw new BadTeamException("No users for team with id: " + teamId);
         }
@@ -102,20 +101,18 @@ public final class WorkItemService {
                 .collect(Collectors.toList());
     }
 
-    public List<WorkItem> findAllWorkItemsByUserId(Long userId) {
+    public List<WorkItem> getAllWorkItemsByUserId(Long userId) {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
-
         if (workItems.isEmpty()) {
             throw new BadWorkitemException("No workitems for user with id: " + userId);
         }
         return workItems;
     }
 
-    public List<WorkItem> findAllWorkItemsByDescription(String description) {
+    public List<WorkItem> getAllWorkItemsByDescription(String description) {
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> w.getDescription().contains(description))
                 .collect(Collectors.toList());
-
         if (workItems.isEmpty()) {
             throw new BadWorkitemException("No workitems with description: " + description);
         }
@@ -126,16 +123,14 @@ public final class WorkItemService {
         List<WorkItem> workItems = workItemRepository.findAll().stream()
                 .filter(w -> issueRepository.findAll().stream()
                         .anyMatch(i -> i.getWorkItem().getId().equals(w.getId()))).collect(Collectors.toList());
-
         if (workItems.isEmpty()) {
             throw new BadWorkitemException("No workitems found with issues");
         }
         return workItems;
     }
 
-    public List<WorkItem> findAllWorkItemsByStatus(Status status) {
+    public List<WorkItem> getAllWorkItemsByStatus(Status status) {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
-
         if (workItems.isEmpty()) {
             throw new BadWorkitemException("No workitems with status: " + status);
         }

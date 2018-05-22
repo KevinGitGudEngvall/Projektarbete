@@ -12,12 +12,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
-import java.util.Optional;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static javax.ws.rs.core.Response.Status.*;
 
 @Component
 @Consumes(APPLICATION_JSON)
@@ -62,21 +59,21 @@ public class WorkItemResource {
     @Path("{id}/status")
     public Response changeStatus(@PathParam("id") Long workItemId,
                                  @QueryParam("set") String status) {
-        if (workItemService.changeStatus(workItemId, status)) {
+        if (workItemService.setStatusOnWorkItem(workItemId, status)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @GET
-    public List<WorkItem> getAllWorkItem() {
-        return workItemService.getAllItems();
+    public List<WorkItem> getAllWorkItems() {
+        return workItemService.getAllWorkItems();
     }
 
     @GET
     @Path("{id}")
     public Response getWorkItem(@PathParam("id") Long id) {
-        return  workItemService.getItem(id)
+        return workItemService.getWorkItem(id)
                 .map(Response::ok)
                 .orElse(Response.status(NOT_FOUND))
                 .build();
@@ -85,19 +82,19 @@ public class WorkItemResource {
     @GET
     @Path("team/{id}")
     public List<WorkItem> getAllWorkItemsForTeam(@PathParam("id") Long teamId) {
-        return workItemService.findAllWorkItemsByTeamId(teamId);
+        return workItemService.getAllWorkItemsByTeamId(teamId);
     }
 
     @GET
     @Path("user/{id}")
     public List<WorkItem> getAllWorkItemsForUser(@PathParam("id") Long userId) {
-        return workItemService.findAllWorkItemsByUserId(userId);
+        return workItemService.getAllWorkItemsByUserId(userId);
     }
 
     @GET
     @Path("description/{description}")
     public List<WorkItem> getWorkItemsByDescription(@PathParam("description") String value) {
-        return workItemService.findAllWorkItemsByDescription(value);
+        return workItemService.getAllWorkItemsByDescription(value);
     }
 
     @GET
@@ -107,16 +104,16 @@ public class WorkItemResource {
     }
 
     @GET
-    @Path("stat/{statusValue}")
+    @Path("status/{statusValue}")
     public List<WorkItem> getAllWorkItemsByStatus(@PathParam("statusValue") Status statValue) {
-        return workItemService.findAllWorkItemsByStatus(statValue);
+        return workItemService.getAllWorkItemsByStatus(statValue);
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteWorkItem(@PathParam("id") Long id) {
         workItemService.deleteWorkItem(id);
-        if(workItemService.deleteWorkItem(id)) {
+        if (workItemService.deleteWorkItem(id)) {
             return Response.status(NO_CONTENT).build();
         }
         return Response.status(NOT_FOUND).build();

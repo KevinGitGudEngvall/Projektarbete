@@ -40,7 +40,7 @@ public final class UserService {
                 userNumbers.incrementAndGet()));
     }
 
-    public Optional<User> getUserByUsernumber(Long userNumber) {
+    public Optional<User> getUserByUserNumber(Long userNumber) {
         return userRepository.findUserByuserNumber(userNumber);
     }
 
@@ -78,7 +78,7 @@ public final class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> findAllUsersAtTeamByTeamName(String teamName) {
+    public List<User> getAllUsersInTeamByTeamName(String teamName) {
         Optional<Team> team = teamRepository.findByName(teamName);
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());

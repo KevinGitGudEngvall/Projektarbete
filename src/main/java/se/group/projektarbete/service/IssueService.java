@@ -1,10 +1,8 @@
 package se.group.projektarbete.service;
 
-
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.repository.IssueRepository;
-import se.group.projektarbete.repository.WorkItemRepository;
 
 import java.util.Optional;
 
@@ -12,11 +10,9 @@ import java.util.Optional;
 public final class IssueService {
 
     private final IssueRepository issueRepository;
-    private final WorkItemRepository workItemRepository;
 
-    public IssueService(IssueRepository issueRepository, WorkItemRepository workItemRepository) {
+    public IssueService(IssueRepository issueRepository) {
         this.issueRepository = issueRepository;
-        this.workItemRepository = workItemRepository;
     }
 
     public boolean updateIssue(Long id, Issue issue) {
