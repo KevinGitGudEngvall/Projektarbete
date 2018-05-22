@@ -16,6 +16,7 @@ public final class Issue {
     private WorkItem workItem;
 
     protected Issue() {
+        this.description = null;
     }
 
     public Issue(String description) {

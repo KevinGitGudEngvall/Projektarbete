@@ -1,6 +1,5 @@
 package se.group.projektarbete.web;
 
-
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
@@ -40,7 +39,6 @@ public class WorkItemResource {
     @POST
     public Response createWorkItem(WorkItem workItem) {
         WorkItem createdWorkItem = workItemService.createWorkItem(workItem);
-
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(createdWorkItem.getId().toString())).build();
     }
@@ -97,7 +95,7 @@ public class WorkItemResource {
     }
 
     @GET
-    @Path("desc/{description}")
+    @Path("description/{description}")
     public List<WorkItem> getWorkItemsByDescription(@PathParam("description") String value) {
         return workItemService.findAllWorkItemsByDescription(value);
     }
@@ -118,6 +116,9 @@ public class WorkItemResource {
     @Path("{id}")
     public Response deleteWorkItem(@PathParam("id") Long id) {
         workItemService.deleteWorkItem(id);
-        return Response.status(NO_CONTENT).build();
+        if(workItemService.deleteWorkItem(id)) {
+            return Response.status(NO_CONTENT).build();
+        }
+        return Response.status(NOT_FOUND).build();
     }
 }

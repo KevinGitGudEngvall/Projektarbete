@@ -4,11 +4,9 @@ import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
-import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
-import se.group.projektarbete.service.exceptions.BadTeamException;
 import se.group.projektarbete.service.exceptions.BadUserException;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public final class UserService {
     private final UserRepository userRepository;
     private final WorkItemRepository workItemRepository;
     private final TeamRepository teamRepository;
-    private AtomicLong userNumbers;
+    private final AtomicLong userNumbers;
 
     public UserService(UserRepository userRepository, WorkItemRepository workItemRepository, TeamRepository teamRepository) {
         this.userRepository = userRepository;
@@ -63,7 +61,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()));
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
             return true;
         }
         return false;
@@ -76,25 +74,19 @@ public final class UserService {
                                 lastName != null && lastName.equalsIgnoreCase(u.getLastName()) ||
                                 userName != null && userName.equalsIgnoreCase(u.getUserName()))
                 .collect(Collectors.toList());
-
     }
 
     public List<User> findAllUsersAtTeamByTeamName(String teamName) {
         Optional<Team> team = teamRepository.findByName(teamName);
-
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new BadTeamException("No team with teamname: " + teamName);
+        throw new BadUserException("No team with teamname: " + teamName);
     }
 
-    private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
+    private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
         if (!workItems.isEmpty()) {
-
-            for (int i = 0; i < workItems.size(); i++) {
-                workItems.get(i).setStatus(Status.UNSTARTED);
-            }
-
+            //user.setWorkItemsToUnstarted(workItems);
             saveWorkItems(workItems);
         }
     }
@@ -110,5 +102,4 @@ public final class UserService {
             throw new BadUserException("Username cannot be shorter than 10 characters");
         }
     }
-
 }
