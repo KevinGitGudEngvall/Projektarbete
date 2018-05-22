@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
@@ -62,7 +63,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()));
             return true;
         }
         return false;
@@ -85,9 +86,11 @@ public final class UserService {
         throw new BadTeamException("No team with teamname: " + teamName);
     }
 
-    private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
+    private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         if (!workItems.isEmpty()) {
-            user.setWorkItemsToUnstarted(workItems);
+            for (int i = 0; i < workItems.size(); i++) {
+                workItems.get(i).setStatus(Status.UNSTARTED);
+            }
             saveWorkItems(workItems);
         }
     }
