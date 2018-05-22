@@ -7,6 +7,7 @@ import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
+import se.group.projektarbete.service.exceptions.BadTeamException;
 import se.group.projektarbete.service.exceptions.BadUserException;
 
 import java.util.List;
@@ -81,12 +82,12 @@ public final class UserService {
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new BadUserException("No team with teamname: " + teamName);
+        throw new BadTeamException("No team with teamname: " + teamName);
     }
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
         if (!workItems.isEmpty()) {
-            //user.setWorkItemsToUnstarted(workItems);
+            user.setWorkItemsToUnstarted(workItems);
             saveWorkItems(workItems);
         }
     }
