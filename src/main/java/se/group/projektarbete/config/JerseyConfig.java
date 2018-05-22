@@ -13,7 +13,6 @@ public class JerseyConfig extends ResourceConfig {
         packages("se.group.projektarbete.web");
     }
 
-
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper().registerModule(new ParameterNamesModule());

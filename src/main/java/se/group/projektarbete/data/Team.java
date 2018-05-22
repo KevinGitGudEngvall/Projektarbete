@@ -8,9 +8,6 @@ import java.util.List;
 @Entity
 public final class Team {
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = {CascadeType.DETACH, CascadeType.PERSIST})
-    List<User> users;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,8 +18,10 @@ public final class Team {
     @Column(nullable = false)
     private Boolean active;
 
-    protected Team() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+    List<User> users;
 
+    protected Team() {
     }
 
     public Team(String name, Boolean active) {

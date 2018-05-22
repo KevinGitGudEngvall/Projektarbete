@@ -13,19 +13,19 @@ import java.util.Optional;
 @Service
 public final class TeamService {
 
-    private TeamRepository teamRepository;
-    private UserRepository userRepository;
+    private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     public TeamService(TeamRepository teamRepository, UserRepository userRepository) {
         this.teamRepository = teamRepository;
         this.userRepository = userRepository;
     }
 
-    public Team createTeam(Team team) {
+    public void createTeam(Team team) {
         if (team.getName() == null || team.getActive() == null) {
             throw new BadTeamException("All required values for the team has not been assigned");
         }
-        return teamRepository.save(team);
+        teamRepository.save(team);
     }
 
     public boolean updateTeam(Long id, Team team) {
