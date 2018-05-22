@@ -102,10 +102,4 @@ public final class User {
     public void setTeam(Team team) {
         this.team = team;
     }
-
-    public void setWorkItemsToUnstarted(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItems.get(i).setStatus(Status.UNSTARTED);
-        }
-    }
 }
