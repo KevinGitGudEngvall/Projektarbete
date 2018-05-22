@@ -62,7 +62,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()));
             return true;
         }
         return false;
@@ -85,9 +85,9 @@ public final class UserService {
         throw new BadTeamException("No team with teamname: " + teamName);
     }
 
-    private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
+    private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         if (!workItems.isEmpty()) {
-            user.setWorkItemsToUnstarted(workItems);
+            setWorkItemsToUnstarted(workItems);
             saveWorkItems(workItems);
         }
     }
