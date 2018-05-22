@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
@@ -87,7 +88,9 @@ public final class UserService {
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         if (!workItems.isEmpty()) {
-            setWorkItemsToUnstarted(workItems);
+            for (int i = 0; i < workItems.size(); i++) {
+                workItems.get(i).setStatus(Status.UNSTARTED);
+            }
             saveWorkItems(workItems);
         }
     }
