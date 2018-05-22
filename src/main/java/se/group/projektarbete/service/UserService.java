@@ -4,11 +4,14 @@ import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
+import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.TeamRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
 import se.group.projektarbete.service.exceptions.BadUserException;
 import se.group.projektarbete.service.exceptions.InvalidInputException;
+import se.group.projektarbete.service.exceptions.BadTeamException;
+import se.group.projektarbete.service.exceptions.BadUserException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,9 +51,12 @@ public final class UserService {
 
     public boolean updateUser(Long userNumber, User user) {
         validateUser(user);
-        if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
-            Optional<User> users = userRepository.findUserByuserNumber(userNumber);
-            updateUserInfo(users.get(), user);
+        Optional<User> users = userRepository.findUserByuserNumber(userNumber);
+        if (users.isPresent()) {
+            users.get().setFirstName(user.getFirstName());
+            users.get().setLastName(user.getLastName());
+            users.get().setUserName(user.getUserName());
+            users.get().setActive(user.getActive());
             userRepository.save(users.get());
             return true;
         }
@@ -62,7 +68,7 @@ public final class UserService {
             Optional<User> users = userRepository.findUserByuserNumber(userNumber);
             users.get().setActive(false);
             userRepository.save(users.get());
-            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()), users.get());
+            setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()));
             return true;
         }
         return false;
@@ -84,31 +90,30 @@ public final class UserService {
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new InvalidInputException("No team with teamname: " + teamName);
+        throw new BadTeamException("No team with teamname: " + teamName);
     }
 
-    private void setWorkItemsToUnstarted(List<WorkItem> workItems, User user) {
+    private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
         if (!workItems.isEmpty()) {
-            user.setWorkItemsToUnstarted(workItems);
+
+            for (int i = 0; i < workItems.size(); i++) {
+                workItems.get(i).setStatus(Status.UNSTARTED);
+            }
+
             saveWorkItems(workItems);
         }
     }
 
     private void saveWorkItems(List<WorkItem> workItems) {
-        for (int i = 0; i < workItems.size(); i++) {
-            workItemRepository.save(workItems.get(i));
+        for (WorkItem workItem : workItems) {
+            workItemRepository.save(workItem);
         }
     }
 
     private void validateUser(User user) {
         if (user.getUserName().length() < 10) {
-            throw new InvalidInputException("Username cannot be shorter than 10 characters");
+            throw new BadUserException("Username cannot be shorter than 10 characters");
         }
     }
-    private void updateUserInfo(User user, User newInfo) {
-        user.setFirstName(newInfo.getFirstName());
-        user.setLastName(newInfo.getLastName());
-        user.setUserName(newInfo.getUserName());
-        user.setActive(newInfo.getActive());
-    }
+
 }

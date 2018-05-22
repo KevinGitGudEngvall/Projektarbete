@@ -8,9 +8,7 @@ import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.repository.IssueRepository;
 import se.group.projektarbete.repository.UserRepository;
 import se.group.projektarbete.repository.WorkItemRepository;
-import se.group.projektarbete.service.exceptions.BadIssueException;
-import se.group.projektarbete.service.exceptions.BadWorkitemException;
-import se.group.projektarbete.service.exceptions.InvalidInputException;
+import se.group.projektarbete.service.exceptions.*;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -80,13 +78,13 @@ public final class WorkItemService {
         Optional<WorkItem> workItem = workItemRepository.findById(workItemId);
 
         if (!user.isPresent()) {
-            throw new InvalidInputException("No User with that id");
+            throw new BadUserException("No User with that id");
         } else if (!workItem.isPresent()) {
-            throw new InvalidInputException("No Workitem with that id");
+            throw new BadWorkitemException("No Workitem with that id");
         } else if (user.get().getWorkItems().size() > 4) {
-            throw new InvalidInputException("To many Workitems for that user");
+            throw new BadWorkitemException("To many Workitems for that user");
         } else if (!user.get().getActive()) {
-            throw new InvalidInputException("user is not active");
+            throw new BadUserException("user is not active");
         }
 
         user.get().setWorkItems(workItem.get());
@@ -97,7 +95,7 @@ public final class WorkItemService {
         List<User> users = userRepository.findUsersByTeamId(teamId);
 
         if (users.isEmpty()) {
-            throw new InvalidInputException("No users for that teamid.");
+            throw new BadTeamException("No users for team with id: " + teamId);
         }
         return workItemRepository.findAll().stream()
                 .filter(w -> users.stream().anyMatch(u -> u.getWorkItems().stream().anyMatch(wu -> wu.getId().equals(w.getId()))))
@@ -108,7 +106,7 @@ public final class WorkItemService {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByUserId(userId);
 
         if (workItems.isEmpty()) {
-            throw new InvalidInputException("No workitems for that userid.");
+            throw new BadWorkitemException("No workitems for user with id: " + userId);
         }
         return workItems;
     }
@@ -119,7 +117,7 @@ public final class WorkItemService {
                 .collect(Collectors.toList());
 
         if (workItems.isEmpty()) {
-            throw new InvalidInputException("No workitems with that description");
+            throw new BadWorkitemException("No workitems with description: " + description);
         }
         return workItems;
     }
@@ -139,14 +137,14 @@ public final class WorkItemService {
         List<WorkItem> workItems = workItemRepository.findWorkItemsByStatus(status);
 
         if (workItems.isEmpty()) {
-            throw new InvalidInputException("No workitems with that status");
+            throw new BadWorkitemException("No workitems with status: " + status);
         }
         return workItems;
     }
 
     private void validateWorkItem(Long id) {
         if (!workItemRepository.findById(id).isPresent()) {
-            throw new InvalidInputException("No workitem was found with that Id..");
+            throw new BadWorkitemException("No workitem was found with id: " + id);
         }
         if (!workItemRepository.findById(id).get().getStatus().toString().equals("DONE")) {
             throw new BadIssueException("Cant add an issue to a workitem that is not DONE");
@@ -155,7 +153,7 @@ public final class WorkItemService {
 
     private void validate(String status) {
         if (!status.equals("STARTED") && !status.equals("UNSTARTED") && !status.equals("DONE")) {
-            throw new InvalidInputException("status=? , do not contain DONE, STARTED or UNSTARTED");
+            throw new BadWorkitemException("status=? , do not contain DONE, STARTED or UNSTARTED");
         }
     }
 }

@@ -36,18 +36,18 @@ public final class UserResource {
     }
 
     @PUT
-    @Path("{userNumber}/inactivate")
-    public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
-        if (userService.inactivateUser(userNumber)) {
+    @Path("{userNumber}")
+    public Response updateUserByUserNumber(@PathParam("userNumber") Long userNumber, User user) {
+        if (userService.updateUser(userNumber, user)) {
             return Response.status(OK).build();
         }
         return Response.status(NOT_FOUND).build();
     }
 
     @PUT
-    @Path("{userNumber}")
-    public Response updateUserByUserNumber(@PathParam("userNumber") Long userNumber, User user) {
-        if (userService.updateUser(userNumber, user)) {
+    @Path("{userNumber}/inactivate")
+    public Response inactivateUser(@PathParam("userNumber") Long userNumber) {
+        if (userService.inactivateUser(userNumber)) {
             return Response.status(OK).build();
         }
         return Response.status(NOT_FOUND).build();
