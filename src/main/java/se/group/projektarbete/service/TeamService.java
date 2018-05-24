@@ -29,8 +29,8 @@ public final class TeamService {
     }
 
     public boolean updateTeam(Long id, Team team) {
-        if (teamRepository.findById(id).isPresent()) {
-            Optional<Team> teams = teamRepository.findById(id);
+        Optional<Team> teams = teamRepository.findById(id);
+        if (teams.isPresent()) {
             teams.get().setName(team.getName());
             teamRepository.save(teams.get());
             return true;
@@ -39,8 +39,8 @@ public final class TeamService {
     }
 
     public boolean inactivateTeam(Long id) {
-        if (teamRepository.findById(id).isPresent()) {
-            Optional<Team> teams = teamRepository.findById(id);
+        Optional<Team> teams = teamRepository.findById(id);
+        if (teams.isPresent()) {
             teams.get().setActive(false);
             teamRepository.save(teams.get());
             return true;
@@ -49,8 +49,7 @@ public final class TeamService {
     }
 
     public List<Team> getAllTeams() {
-        List<Team> teams = teamRepository.findAll();
-        return teams;
+        return teamRepository.findAll();
     }
 
     public void setUserToTeam(Long id, Long userNumber) {

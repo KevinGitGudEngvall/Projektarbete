@@ -12,10 +12,9 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 
 @Component
-@Path("issues")
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
-
+@Path("issues")
 public final class IssueResource {
 
     private final IssueService issueService;

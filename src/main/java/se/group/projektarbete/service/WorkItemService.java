@@ -49,8 +49,8 @@ public final class WorkItemService {
     }
 
     public boolean setStatusOnWorkItem(Long id, String status) {
-        if (workItemRepository.findById(id).isPresent()) {
-            Optional<WorkItem> workItems = workItemRepository.findById(id);
+        Optional<WorkItem> workItems = workItemRepository.findById(id);
+        if (workItems.isPresent()) {
             validate(status);
             workItems.get().setStatus(Status.valueOf(status));
             workItemRepository.save(workItems.get());
