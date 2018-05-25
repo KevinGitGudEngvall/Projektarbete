@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.data.workitemenum.Status;
-import se.group.projektarbete.service.IssueService;
 import se.group.projektarbete.service.WorkItemService;
 
 import javax.ws.rs.*;
@@ -19,18 +18,16 @@ import static javax.ws.rs.core.Response.Status.*;
 @Component
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
-@Path("workitems")
-public class WorkItemResource {
+@Path("workItems")
+public final class WorkItemResource {
 
     private final WorkItemService workItemService;
-    private final IssueService issueService;
 
     @Context
     private UriInfo uriInfo;
 
-    public WorkItemResource(WorkItemService workItemService, IssueService issueService) {
+    public WorkItemResource(WorkItemService workItemService) {
         this.workItemService = workItemService;
-        this.issueService = issueService;
     }
 
     @POST

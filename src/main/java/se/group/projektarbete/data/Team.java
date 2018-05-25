@@ -19,7 +19,7 @@ public final class Team {
     private Boolean active;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = {CascadeType.DETACH, CascadeType.PERSIST})
-    List<User> users;
+    private List<User> users;
 
     protected Team() {
     }

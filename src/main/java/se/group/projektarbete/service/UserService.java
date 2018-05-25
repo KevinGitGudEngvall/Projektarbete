@@ -59,8 +59,8 @@ public final class UserService {
     }
 
     public boolean inactivateUser(Long userNumber) {
-        if (userRepository.findUserByuserNumber(userNumber).isPresent()) {
-            Optional<User> users = userRepository.findUserByuserNumber(userNumber);
+        Optional<User> users = userRepository.findUserByuserNumber(userNumber);
+        if (users.isPresent()) {
             users.get().setActive(false);
             userRepository.save(users.get());
             setWorkItemsToUnstarted(workItemRepository.findAllByUser(users.get()));
@@ -83,7 +83,7 @@ public final class UserService {
         if (team.isPresent()) {
             return userRepository.getAllByTeamId(team.get().getId());
         }
-        throw new BadTeamException("No team with teamname: " + teamName);
+        throw new BadTeamException("No team with team name: " + teamName);
     }
 
     private void setWorkItemsToUnstarted(List<WorkItem> workItems) {
