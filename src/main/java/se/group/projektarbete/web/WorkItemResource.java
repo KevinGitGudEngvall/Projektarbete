@@ -5,6 +5,7 @@ import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.WorkItemService;
+import se.group.projektarbete.web.filters.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -31,6 +32,7 @@ public final class WorkItemResource {
     }
 
     @POST
+    @Secured
     public Response createWorkItem(WorkItem workItem) {
         WorkItem createdWorkItem = workItemService.createWorkItem(workItem);
         return Response.status(CREATED).header("Location",
@@ -38,6 +40,7 @@ public final class WorkItemResource {
     }
 
     @POST
+    @Secured
     @Path("{id}/issues")
     public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
         workItemService.addIssueToWorkItem(id, issue);

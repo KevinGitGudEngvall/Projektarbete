@@ -3,6 +3,7 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.service.TeamService;
+import se.group.projektarbete.web.filters.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -29,6 +30,7 @@ public final class TeamResource {
     }
 
     @POST
+    @Secured
     public Response createTeam(Team team) {
         teamService.createTeam(team);
         return Response.status(CREATED).header("Location",

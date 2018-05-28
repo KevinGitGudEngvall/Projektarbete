@@ -3,6 +3,7 @@ package se.group.projektarbete.web;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.service.UserService;
+import se.group.projektarbete.web.filters.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -29,6 +30,7 @@ public final class UserResource {
     }
 
     @POST
+    @Secured
     public Response createUser(User user) {
         User createdUser = userService.createUser(user);
         return Response.status(CREATED).header("Location",
