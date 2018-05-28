@@ -1,11 +1,16 @@
 package se.group.projektarbete.web;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
+import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.service.IssueService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -31,4 +36,13 @@ public final class IssueResource {
         }
         return Response.status(NOT_FOUND).build();
     }
+
+    @GET
+    @Path("page")
+    public List<Issue> getAllIssues(@QueryParam("p") Integer page,
+                                          @QueryParam("s") Integer size) {
+        Pageable pageable = new PageRequest(page, size);
+        return issueService.getAllIssues(pageable).getContent();
+    }
+
 }

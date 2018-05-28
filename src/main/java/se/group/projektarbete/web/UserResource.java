@@ -59,7 +59,8 @@ public final class UserResource {
     }
 
     @GET
-    public List<User> getAllWorkItems(@QueryParam("p") Integer page,
+    @Path("page")
+    public List<User> getAllUsers(@QueryParam("p") Integer page,
                                           @QueryParam("s") Integer size) {
         Pageable pageable = new PageRequest(page, size);
         return userService.getAllUsers(pageable).getContent();

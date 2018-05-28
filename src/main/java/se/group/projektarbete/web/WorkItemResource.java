@@ -69,6 +69,7 @@ public final class WorkItemResource {
     }
 
     @GET
+    @Path("page")
     public List<WorkItem> getAllWorkItems(@QueryParam("p") Integer page,
                                           @QueryParam("s") Integer size) {
         Pageable pageable = new PageRequest(page, size);
