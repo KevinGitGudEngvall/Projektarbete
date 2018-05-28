@@ -10,14 +10,14 @@ import se.group.projektarbete.data.workitemenum.Status;
 
 import java.util.List;
 
-public interface WorkItemRepository extends CrudRepository<WorkItem, Long> {
+public interface WorkItemRepository extends PagingAndSortingRepository<WorkItem, Long> {
 
     List<WorkItem> findAllByUser(User user);
 
     List<WorkItem> findAll();
 
-    //@Override
-    //Page<WorkItem> findAll(Pageable pageable);
+    @Override
+    Page<WorkItem> findAll(Pageable pageable);
 
     List<WorkItem> findWorkItemsByUserId(Long userId);
 

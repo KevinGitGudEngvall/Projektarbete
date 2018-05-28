@@ -68,12 +68,12 @@ public final class WorkItemResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
-    /*@GET
+    @GET
     public List<WorkItem> getAllWorkItems(@QueryParam("p") Integer page,
                                           @QueryParam("s") Integer size) {
         Pageable pageable = new PageRequest(page, size);
         return workItemService.getAllWorkItems(pageable).getContent();
-    }*/
+    }
 
     @GET
     @Path("{id}")

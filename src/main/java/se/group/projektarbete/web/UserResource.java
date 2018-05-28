@@ -1,7 +1,10 @@
 package se.group.projektarbete.web;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.User;
+import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.service.UserService;
 import se.group.projektarbete.web.filters.Secured;
 
@@ -53,6 +56,13 @@ public final class UserResource {
             return Response.status(OK).build();
         }
         return Response.status(NOT_FOUND).build();
+    }
+
+    @GET
+    public List<User> getAllWorkItems(@QueryParam("p") Integer page,
+                                          @QueryParam("s") Integer size) {
+        Pageable pageable = new PageRequest(page, size);
+        return userService.getAllUsers(pageable).getContent();
     }
 
     @GET

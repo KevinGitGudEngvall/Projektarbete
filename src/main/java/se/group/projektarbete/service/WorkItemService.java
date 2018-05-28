@@ -65,7 +65,7 @@ public final class WorkItemService {
         return workItemRepository.findById(id);
     }
 
-    //public Page<WorkItem> getAllWorkItems(Pageable pageable) { return workItemRepository.findAll(pageable); }
+    public Page<WorkItem> getAllWorkItems(Pageable pageable) { return workItemRepository.findAll(pageable); }
 
     public boolean deleteWorkItem(Long id) {
         if (workItemRepository.existsById(id)) {

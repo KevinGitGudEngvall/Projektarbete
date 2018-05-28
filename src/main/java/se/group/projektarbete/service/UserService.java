@@ -1,5 +1,7 @@
 package se.group.projektarbete.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Team;
 import se.group.projektarbete.data.User;
@@ -39,6 +41,8 @@ public final class UserService {
                 user.getUserName(),
                 userNumbers.incrementAndGet()));
     }
+
+    public Page<User> getAllUsers(Pageable pageable) { return userRepository.findAll(pageable); }
 
     public Optional<User> getUserByUserNumber(Long userNumber) {
         return userRepository.findUserByuserNumber(userNumber);
