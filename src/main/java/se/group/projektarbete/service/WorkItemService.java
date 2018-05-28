@@ -1,5 +1,7 @@
 package se.group.projektarbete.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.User;
@@ -63,9 +65,7 @@ public final class WorkItemService {
         return workItemRepository.findById(id);
     }
 
-    public List<WorkItem> getAllWorkItems() {
-        return workItemRepository.findAll();
-    }
+    //public Page<WorkItem> getAllWorkItems(Pageable pageable) { return workItemRepository.findAll(pageable); }
 
     public boolean deleteWorkItem(Long id) {
         if (workItemRepository.existsById(id)) {

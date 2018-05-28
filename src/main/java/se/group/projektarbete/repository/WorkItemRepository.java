@@ -1,6 +1,9 @@
 package se.group.projektarbete.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import se.group.projektarbete.data.User;
 import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.data.workitemenum.Status;
@@ -12,6 +15,9 @@ public interface WorkItemRepository extends CrudRepository<WorkItem, Long> {
     List<WorkItem> findAllByUser(User user);
 
     List<WorkItem> findAll();
+
+    //@Override
+    //Page<WorkItem> findAll(Pageable pageable);
 
     List<WorkItem> findWorkItemsByUserId(Long userId);
 

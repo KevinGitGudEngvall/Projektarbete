@@ -1,5 +1,8 @@
 package se.group.projektarbete.web;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
@@ -65,10 +68,12 @@ public final class WorkItemResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
-    @GET
-    public List<WorkItem> getAllWorkItems() {
-        return workItemService.getAllWorkItems();
-    }
+    /*@GET
+    public List<WorkItem> getAllWorkItems(@QueryParam("p") Integer page,
+                                          @QueryParam("s") Integer size) {
+        Pageable pageable = new PageRequest(page, size);
+        return workItemService.getAllWorkItems(pageable).getContent();
+    }*/
 
     @GET
     @Path("{id}")
