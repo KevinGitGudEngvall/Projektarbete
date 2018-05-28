@@ -68,5 +68,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private void validateToken(String token) throws Exception {
         // Check if the token was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
+        if(!token.equals("kevin")){
+            throw new Exception();
+        }
     }
 }
