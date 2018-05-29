@@ -58,5 +58,5 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             throw new Exception();
         }
     }
-    
+
 }

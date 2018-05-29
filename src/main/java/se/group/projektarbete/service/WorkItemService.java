@@ -15,6 +15,8 @@ import se.group.projektarbete.service.exceptions.BadTeamException;
 import se.group.projektarbete.service.exceptions.BadUserException;
 import se.group.projektarbete.service.exceptions.BadWorkitemException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +32,21 @@ public final class WorkItemService {
         this.workItemRepository = workItemRepository;
         this.issueRepository = issueRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<WorkItem> getAllWorkItemByDateAndStatus(String beginDate, String endDate, String status){
+        LocalDate beginDateP = checkAndFormatDate(beginDate);
+        LocalDate endDateP = checkAndFormatDate(endDate);
+        validate(status);
+        List<WorkItem> workItems =  workItemRepository.findAll().stream().filter(w -> w.getDateUpdate().compareTo(beginDateP) >= 0 &&
+                w.getDateUpdate().compareTo(endDateP) <= 0 &&
+                w.getStatus().toString().equals(status))
+                .collect(Collectors.toList());
+        if(workItems.isEmpty()) {
+            throw new BadWorkitemException("No workItems between those dates with that status.");
+        }
+        return workItems;
+
     }
 
     public void addIssueToWorkItem(Long id, Issue issue) {
@@ -151,4 +168,16 @@ public final class WorkItemService {
             throw new BadWorkitemException("status=? , do not contain DONE, STARTED or UNSTARTED");
         }
     }
+
+    private LocalDate checkAndFormatDate(String date){
+        if(date == null){
+            throw new BadWorkitemException("Both a beginning and ending date need to be assigned");
+        }
+        try {
+            return LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            throw new BadWorkitemException("Invalid date format, please enter date by yyyy-MM-dd.");
+        }
+    }
+
 }

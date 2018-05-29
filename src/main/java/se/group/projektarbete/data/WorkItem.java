@@ -1,9 +1,11 @@
 package se.group.projektarbete.data;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import se.group.projektarbete.data.workitemenum.Status;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
+import java.time.LocalDate;
 
 @Entity
 public final class WorkItem {
@@ -21,6 +23,10 @@ public final class WorkItem {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Column(name = "date_updated")
+    @UpdateTimestamp
+    private LocalDate dateUpdate;
 
     @ManyToOne
     @XmlTransient
@@ -72,4 +78,6 @@ public final class WorkItem {
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
+
+    public LocalDate getDateUpdate() { return dateUpdate; }
 }

@@ -68,6 +68,13 @@ public final class WorkItemResource {
     }
 
     @GET
+    public List<WorkItem> getAllWorkItemsByDateAndStatus(@QueryParam("bDate") String beginDate,
+                                                      @QueryParam("eDate") String endDate,
+                                                      @QueryParam("s")String status) {
+        return workItemService.getAllWorkItemByDateAndStatus(beginDate, endDate, status);
+    }
+
+    @GET
     @Path("page")
     public List<WorkItem> getAllWorkItems(@QueryParam("p") Integer page,
                                           @QueryParam("s") Integer size) {
