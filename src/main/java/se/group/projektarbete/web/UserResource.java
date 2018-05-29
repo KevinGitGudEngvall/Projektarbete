@@ -4,9 +4,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.User;
-import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.service.UserService;
-import se.group.projektarbete.web.filters.Secured;
+import se.group.projektarbete.web.filters.Protected;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -33,7 +32,7 @@ public final class UserResource {
     }
 
     @POST
-    @Secured
+    @Protected
     public Response createUser(User user) {
         User createdUser = userService.createUser(user);
         return Response.status(CREATED).header("Location",

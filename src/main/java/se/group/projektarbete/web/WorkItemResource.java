@@ -2,13 +2,12 @@ package se.group.projektarbete.web;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
 import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.data.workitemenum.Status;
 import se.group.projektarbete.service.WorkItemService;
-import se.group.projektarbete.web.filters.Secured;
+import se.group.projektarbete.web.filters.Protected;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -35,7 +34,7 @@ public final class WorkItemResource {
     }
 
     @POST
-    @Secured
+    @Protected
     public Response createWorkItem(WorkItem workItem) {
         WorkItem createdWorkItem = workItemService.createWorkItem(workItem);
         return Response.status(CREATED).header("Location",
@@ -43,7 +42,7 @@ public final class WorkItemResource {
     }
 
     @POST
-    @Secured
+    @Protected
     @Path("{id}/issues")
     public Response addIssueToWorkItem(@PathParam("id") Long id, Issue issue) {
         workItemService.addIssueToWorkItem(id, issue);

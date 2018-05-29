@@ -4,7 +4,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import se.group.projektarbete.data.Issue;
-import se.group.projektarbete.data.WorkItem;
 import se.group.projektarbete.service.IssueService;
 
 import javax.ws.rs.*;
