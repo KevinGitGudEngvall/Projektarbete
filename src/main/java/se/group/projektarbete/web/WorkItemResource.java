@@ -11,8 +11,13 @@ import se.group.projektarbete.web.filters.Protected;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.sse.OutboundSseEvent;
+import javax.ws.rs.sse.Sse;
+import javax.ws.rs.sse.SseBroadcaster;
+import javax.ws.rs.sse.SseEventSink;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -27,6 +32,13 @@ public final class WorkItemResource {
     private final WorkItemService workItemService;
 
     @Context
+    private Sse sse;
+
+    private SseBroadcaster broadcaster;
+
+    String message = "WorkItem has been created";
+
+    @Context
     private UriInfo uriInfo;
 
     public WorkItemResource(WorkItemService workItemService) {
@@ -37,6 +49,15 @@ public final class WorkItemResource {
     @Protected
     public Response createWorkItem(WorkItem workItem) {
         WorkItem createdWorkItem = workItemService.createWorkItem(workItem);
+
+        final OutboundSseEvent event = sse.newEventBuilder()
+                .name("message")
+                .mediaType(MediaType.APPLICATION_JSON_TYPE)
+                .data(String.class, message)
+                .build();
+
+        broadcaster.broadcast(event);
+
         return Response.status(CREATED).header("Location",
                 uriInfo.getAbsolutePathBuilder().path(createdWorkItem.getId().toString())).build();
     }
@@ -65,6 +86,17 @@ public final class WorkItemResource {
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    @GET
+    @Path("get")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public void listenToBroadcast(@Context SseEventSink eventSink) {
+        if(broadcaster == null){
+            this.broadcaster = sse.newBroadcaster();
+        }
+
+        this.broadcaster.register(eventSink);
     }
 
     @GET
